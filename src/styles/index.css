@@ -143,6 +143,37 @@ svg {
   padding-inline: 0.15em; /* room for the script's swashes */
 }
 
+/* A slow gold glint passing across the names, like foil catching the light */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .names__name {
+    padding-block: 0.14em;
+    margin-block: -0.1em;
+    background: linear-gradient(
+      100deg,
+      var(--plum-deep) 0%,
+      var(--plum-deep) 40%,
+      #cfa862 50%,
+      var(--plum-deep) 60%,
+      var(--plum-deep) 100%
+    );
+    background-size: 280% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: foil 8s ease-in-out infinite;
+  }
+
+  .names__name:last-child {
+    animation-delay: 0.5s;
+  }
+}
+
+@keyframes foil {
+  0%, 45% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
 .names__amp {
   font-family: var(--font-serif);
   font-style: italic;
@@ -222,6 +253,42 @@ svg {
 .floral--bl { bottom: -14px; left: -14px; transform: scaleY(-1); }
 .floral--br { bottom: -14px; right: -14px; transform: scale(-1, -1); }
 
+/* Falling petals */
+.petals {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  opacity: 0;
+  animation: petal-fall var(--dur) linear var(--delay) infinite;
+}
+
+.petal svg {
+  animation: petal-sway calc(var(--dur) / 4) ease-in-out var(--delay) infinite alternate;
+}
+
+@keyframes petal-fall {
+  0% { transform: translateY(-4%); opacity: 0; }
+  8%, 88% { opacity: 0.8; }
+  100% { transform: translateY(102%); opacity: 0; }
+}
+
+@keyframes petal-sway {
+  from { transform: translateX(calc(var(--drift) * -1)) rotate(-35deg); }
+  to { transform: translateX(var(--drift)) rotate(70deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals { display: none; }
+}
+
 .posy {
   width: 150px;
   margin: 0 auto 6px;
@@ -264,25 +331,130 @@ svg {
   place-items: center;
   padding: 24px;
   overflow: hidden;
+  perspective: 1800px;
+}
+
+.opening.is-opening {
+  pointer-events: none;
+}
+
+/* The cover is two halves of one sheet. They part down the middle and swing
+   towards the guest, like a gatefold invitation being opened. */
+.opening__door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.2%;
   background:
     radial-gradient(120% 80% at 50% 0%, var(--purple-light) 0%, transparent 60%),
     radial-gradient(90% 60% at 50% 100%, #f6e6eb 0%, transparent 65%),
     var(--cream);
+  background-size: 200% 100%;
+  backface-visibility: hidden;
   transition:
-    opacity 1s var(--ease),
-    transform 1s var(--ease),
-    visibility 1s;
+    transform 1.6s cubic-bezier(0.65, 0, 0.25, 1),
+    box-shadow 0.9s var(--ease);
 }
 
-.opening.is-leaving {
-  opacity: 0;
-  transform: translateY(-6%) scale(1.04);
-  visibility: hidden;
+.opening__door--left {
+  left: 0;
+  transform-origin: left center;
+  background-position: left top;
+}
+
+.opening__door--right {
+  right: 0;
+  transform-origin: right center;
+  background-position: right top;
+}
+
+/* a soft shadow gathers along the fold just before it opens */
+.opening.is-leaving .opening__door--left,
+.opening.is-opening .opening__door--left {
+  box-shadow: inset -34px 0 40px -34px rgba(81, 68, 93, 0.22);
+}
+
+.opening.is-leaving .opening__door--right,
+.opening.is-opening .opening__door--right {
+  box-shadow: inset 34px 0 40px -34px rgba(81, 68, 93, 0.22);
+}
+
+.opening.is-opening .opening__door--left { transform: rotateY(-115deg); }
+.opening.is-opening .opening__door--right { transform: rotateY(115deg); }
+
+/* a line of gold light along the fold */
+.opening__seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--gold) 18%, #f1dfb4 50%, var(--gold) 82%, transparent);
+  box-shadow: 0 0 14px 1px rgba(214, 183, 122, 0.7);
+  transform: scaleY(0);
+  transition:
+    transform 0.9s var(--ease) 0.15s,
+    opacity 0.5s ease;
+}
+
+.opening.is-leaving .opening__seam { transform: scaleY(1); }
+.opening.is-opening .opening__seam { transform: scaleY(1); opacity: 0; }
+
+/* Painted bouquets in two corners, cropped from one image (src/assets/floral-frame.webp).
+   `multiply` lets the soft background show through any white in the picture. */
+.painted {
+  position: absolute;
+  z-index: 0;
+  width: min(62vw, 52vh, 420px);
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
   pointer-events: none;
 }
 
-.opening .floral {
-  animation: bloom 1.6s var(--ease) both;
+.opening .painted {
+  width: min(86vw, 62vh, 520px);
+  animation: bloom 1.6s var(--ease) backwards;
+  transition:
+    transform 1.1s var(--ease),
+    opacity 0.9s ease;
+}
+
+/* the flowers ease outward as the card fades, then leave with the cover */
+.opening.is-leaving .painted--tl { transform: translate(-5%, -5%); }
+.opening.is-leaving .painted--br { transform: translate(5%, 5%); }
+
+.opening.is-opening .painted {
+  opacity: 0;
+  transition:
+    transform 1.5s cubic-bezier(0.65, 0, 0.25, 1),
+    opacity 1s ease 0.2s;
+}
+
+.opening.is-opening .painted--tl { transform: translate(-55%, -30%) rotate(-8deg); }
+.opening.is-opening .painted--br { transform: translate(55%, 30%) rotate(-8deg); }
+
+/* a little smaller in the hero so it stays clear of the text and scroll button */
+.hero .painted--br {
+  width: min(52vw, 44vh, 380px);
+}
+
+.painted--tl {
+  top: 0;
+  left: 0;
+  aspect-ratio: 950 / 800;
+  background-size: 162% auto;
+  background-position: left top;
+  /* cut away the corner where the other bouquet's tip would peek in */
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 68%, 50% 100%, 0 100%);
+}
+
+.painted--br {
+  right: 0;
+  bottom: 0;
+  aspect-ratio: 1010 / 730;
+  background-size: 152% auto;
+  background-position: right bottom;
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 9%, 18% 9%);
 }
 
 .opening__card {
@@ -297,6 +469,77 @@ svg {
   background: rgba(255, 253, 249, 0.78);
   backdrop-filter: blur(3px);
   text-align: center;
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.9s var(--ease);
+}
+
+.opening.is-leaving .opening__card,
+.opening.is-opening .opening__card {
+  opacity: 0;
+  transform: translateY(-16px) scale(0.97);
+}
+
+/* "View Invitation": a clear, gold-edged button rather than a solid one */
+.btn--invite {
+  border: 1px solid var(--gold);
+  background: rgba(255, 253, 249, 0.25);
+  box-shadow: 0 0 0 0 rgba(214, 183, 122, 0);
+  color: var(--plum-deep);
+  font-weight: 500;
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.5s var(--ease),
+    background-color 0.35s;
+}
+
+.btn--invite:hover {
+  transform: translateY(-2px);
+  background: rgba(214, 183, 122, 0.12);
+  box-shadow: 0 0 22px -4px rgba(214, 183, 122, 0.7);
+}
+
+.btn--invite:active,
+.opening.is-pressed .btn--invite,
+.opening.is-leaving .btn--invite {
+  transform: scale(0.96);
+  background: rgba(214, 183, 122, 0.16);
+  box-shadow:
+    0 0 0 6px rgba(214, 183, 122, 0.18),
+    0 0 34px 2px rgba(214, 183, 122, 0.75);
+}
+
+.btn--invite:disabled {
+  cursor: default;
+}
+
+.envelope {
+  overflow: visible;
+}
+
+.envelope__flap {
+  transform-box: view-box;
+  transform-origin: 12px 8.500px;
+  transition: transform 0.45s var(--ease);
+}
+
+.envelope__heart {
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 12px 10px;
+  transform: translateY(6px) scale(0.5);
+  transition:
+    transform 0.5s var(--ease) 0.15s,
+    opacity 0.3s ease 0.15s;
+}
+
+.opening:not(.is-idle) .envelope__flap {
+  transform: scaleY(-1);
+}
+
+.opening:not(.is-idle) .envelope__heart {
+  opacity: 1;
+  transform: translateY(-9px) scale(1);
 }
 
 .opening__item {
@@ -470,7 +713,7 @@ svg {
   place-items: center;
   min-height: 100vh;
   min-height: 100svh;
-  padding: 150px 24px 130px;
+  padding: 120px 24px 110px;
   overflow: hidden;
   text-align: center;
   background:
@@ -501,8 +744,26 @@ svg {
 .app.is-open .hero__content > :nth-child(5) { animation-delay: 1.2s; }
 .app.is-open .hero__content > :nth-child(6) { animation-delay: 1.35s; }
 
+/* Wreath framing the couple's names */
+.hero__wreath {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(84vw, 400px);
+  aspect-ratio: 1;
+  margin: 18px auto 22px;
+}
+
+.wreath {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+}
+
 .hero .names {
-  margin-top: 22px;
+  position: relative;
+  font-size: clamp(3rem, 14vw, 4.4rem);
 }
 
 .hero__date {
@@ -686,15 +947,213 @@ svg {
   line-height: 1.3;
 }
 
-@media (min-width: 600px) {
+.details__facts dl {
+  display: grid;
+  gap: 28px;
+}
+
+.details__save {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.details__save-alt {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 4px;
+}
+
+.btn--outline {
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--gold) inset;
+  color: var(--plum-deep);
+}
+
+.btn--outline:hover {
+  box-shadow: 0 0 0 1px var(--gold-deep) inset;
+}
+
+@media (min-width: 680px) {
   .details__when {
     grid-template-columns: 1fr 1fr;
+    align-items: center;
     gap: 0;
+    max-width: 720px;
   }
 
-  .details__fact + .details__fact {
+  .details__facts {
+    padding-left: 24px;
     border-left: 1px solid rgba(214, 183, 122, 0.55);
   }
+}
+
+/* Mini calendar */
+.calendar {
+  width: 100%;
+  max-width: 300px;
+  margin-inline: auto;
+}
+
+.calendar__title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 4px;
+  margin-top: 10px;
+}
+
+.calendar__body {
+  position: relative;
+}
+
+/* Flowers covering the calendar until the guest touches them */
+.veil {
+  position: absolute;
+  inset: 8px -8px -10px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.veil__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 2px 3px rgba(81, 68, 93, 0.16));
+}
+
+.veil__wash {
+  transition: opacity 3s ease-in-out 1.2s;
+}
+
+/* While waiting, every bloom sways gently on its own rhythm */
+.veil__flower {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: veil-sway var(--sway) ease-in-out var(--sway-delay) infinite alternate;
+}
+
+@keyframes veil-sway {
+  from { transform: translate(-2.500px, 1.500px) rotate(-5deg); }
+  to { transform: translate(2.500px, -1.500px) rotate(5deg); }
+}
+
+/* Once touched, the blooms wander slowly away, this way and that, and fade late */
+@keyframes veil-drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(calc(var(--dx) * 0.2 + var(--wx)), calc(var(--dy) * 0.18)) rotate(calc(var(--rot) * 0.25));
+    opacity: 1;
+  }
+  50% {
+    transform: translate(calc(var(--dx) * 0.5 - var(--wx)), calc(var(--dy) * 0.45)) rotate(calc(var(--rot) * 0.5));
+    opacity: 0.95;
+  }
+  75% {
+    transform: translate(calc(var(--dx) * 0.8 + var(--wx)), calc(var(--dy) * 0.75)) rotate(calc(var(--rot) * 0.75));
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.75);
+    opacity: 0;
+  }
+}
+
+.veil__hint {
+  position: relative;
+  max-width: 78%;
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.94);
+  box-shadow: 0 6px 18px -8px rgba(81, 68, 93, 0.45);
+  color: var(--plum-deep);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  transition: opacity 0.4s var(--ease);
+}
+
+.veil.is-revealed {
+  pointer-events: none;
+}
+
+.veil.is-revealed .veil__wash,
+.veil.is-revealed .veil__hint {
+  opacity: 0;
+}
+
+.veil.is-revealed .veil__flower {
+  animation: veil-drift var(--dur) ease-in-out var(--delay) both;
+}
+
+.calendar__weekday {
+  padding-bottom: 6px;
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--gold-deep);
+}
+
+.calendar__day {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 36px;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-variant-numeric: lining-nums;
+  color: var(--ink-soft);
+}
+
+.calendar__day b {
+  position: relative;
+  font-weight: 400;
+}
+
+.calendar__day.is-wedding b {
+  font-weight: 600;
+  color: var(--plum-deep);
+}
+
+.calendar__day.is-wedding svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -21px 0 0 -22px;
+  color: var(--gold);
+  fill: #f8e4ea;
+  animation: heartbeat 2.6s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 30%, 100% { scale: 1; }
+  15% { scale: 1.12; }
 }
 
 .venue {
@@ -803,6 +1262,104 @@ svg {
 .timeline__text {
   margin-top: 4px;
   color: var(--ink-soft);
+}
+
+/* ─────────────────────────────────────────────
+   RSVP
+   ───────────────────────────────────────────── */
+.rsvp__message {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 4.4vw, 1.45rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.rsvp__choice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.rsvp__option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border: 1px solid rgba(214, 183, 122, 0.7);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.rsvp__option.is-selected {
+  border-color: var(--plum);
+  background: var(--purple-light);
+  color: var(--plum-deep);
+}
+
+.rsvp__send-to {
+  margin-top: 30px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.rsvp__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.rsvp__actions .btn {
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+}
+
+.rsvp__actions .btn {
+  width: min(100%, 300px);
+}
+
+@media (min-width: 640px) {
+  .rsvp__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.rsvp__note {
+  margin-top: 26px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--plum-deep);
+}
+
+.rsvp__reply-by {
+  margin-top: 22px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
 }
 
 /* ─────────────────────────────────────────────

@@ -8,6 +8,7 @@ const LINKS = [
   { href: '#countdown', label: 'Countdown' },
   { href: '#details', label: 'Details' },
   { href: '#schedule', label: 'Schedule' },
+  ...(wedding.rsvp.enabled ? [{ href: '#rsvp', label: 'RSVP' }] : []),
 ];
 
 export default function Navbar() {

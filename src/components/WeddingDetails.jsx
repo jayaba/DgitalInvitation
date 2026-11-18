@@ -1,12 +1,14 @@
-import { CalendarHeart, Clock, MapPin, Navigation } from 'lucide-react';
+import { CalendarHeart, CalendarPlus, Clock, MapPin, Navigation } from 'lucide-react';
 import { wedding } from '../config/wedding.js';
-import { getDateLabel, getTimeLabel } from '../utils/date.js';
+import { getCalendarLinks, getDateLabel, getTimeLabel } from '../utils/date.js';
+import DateCalendar from './DateCalendar.jsx';
 import Reveal from './Reveal.jsx';
 import SectionHeading from './SectionHeading.jsx';
 import { FloralCorner } from './decor/Florals.jsx';
 
 export default function WeddingDetails() {
   const { couple, venue } = wedding;
+  const calendarLinks = getCalendarLinks();
 
   return (
     <section id="details" className="section details">
@@ -25,16 +27,34 @@ export default function WeddingDetails() {
           </div>
         </Reveal>
 
-        <Reveal as="dl" className="details__when">
-          <div className="details__fact">
-            <CalendarHeart size={22} strokeWidth={1.400} aria-hidden="true" />
-            <dt>Date</dt>
-            <dd>{getDateLabel()}</dd>
-          </div>
-          <div className="details__fact">
-            <Clock size={22} strokeWidth={1.400} aria-hidden="true" />
-            <dt>Time</dt>
-            <dd>{getTimeLabel()}</dd>
+        <Reveal className="details__when">
+          <DateCalendar />
+
+          <div className="details__facts">
+            <dl>
+              <div className="details__fact">
+                <CalendarHeart size={22} strokeWidth={1.400} aria-hidden="true" />
+                <dt>Date</dt>
+                <dd>{getDateLabel()}</dd>
+              </div>
+              <div className="details__fact">
+                <Clock size={22} strokeWidth={1.400} aria-hidden="true" />
+                <dt>Time</dt>
+                <dd>{getTimeLabel()}</dd>
+              </div>
+            </dl>
+
+            {calendarLinks && (
+              <p className="details__save">
+                <a className="btn btn--outline" href={calendarLinks.google} target="_blank" rel="noopener noreferrer">
+                  <CalendarPlus size={16} aria-hidden="true" />
+                  Save to Calendar
+                </a>
+                <a className="details__save-alt" href={calendarLinks.ics} download="wedding.ics">
+                  Apple / Outlook calendar
+                </a>
+              </p>
+            )}
           </div>
         </Reveal>
 

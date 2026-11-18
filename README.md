@@ -17,11 +17,15 @@ Everything is in **one file: [`src/config/wedding.js`](src/config/wedding.js)**.
 
 | What | Where in `wedding.js` | Notes |
 | --- | --- | --- |
-| Wedding date and time | `date.iso` | **Currently a placeholder (12 Dec 2026, 9:00 AM).** Format: `2026-12-12T09:00:00+05:30` |
-| Show the exact date | `date.isConfirmed` | While `false` the site shows "December 2026" and "Time to be announced". Set to `true` once `date.iso` is correct. The countdown always counts to `date.iso`. |
+| Wedding date and time | `date.iso` | Date is set to 21 Dec 2026. **The time (9:00 AM) is still a placeholder.** Format: `2026-12-21T09:00:00+05:30` |
+| Show the exact date | `date.isConfirmed` | While `false` the site shows "December 2026". The countdown always counts to `date.iso`. |
+| Show the exact time | `date.isTimeConfirmed` | While `false` the site shows "Time to be announced" and the calendar entry is saved as all-day. Set to `true` once the time in `date.iso` is correct. |
+| Flower cover on the calendar | `date.revealHint` | White and rose flowers hide the calendar days until a guest touches or hovers over them. This is the text shown on the flowers. |
+| Calendar entry length | `date.durationHours` | Used by the "Save to Calendar" button, which appears once `isConfirmed` is `true`. The mini calendar circles the wedding day at the same time. |
 | Names | `couple` | |
 | Venue and map link | `venue` | To use an exact map pin: open the venue in Google Maps → Share → copy link → paste into `venue.mapsUrl`. |
 | Invitation wording | `opening`, `hero`, `invitation`, `closing` | |
+| RSVP | `rsvp` | `rsvp.whatsappContacts` lists who receives replies (`number` in digits only, international format, e.g. `94771234567`; `name` is the button text, or leave `''` to show the number). Guests choose "Joyfully Accept" or "Regretfully Decline", then tap a contact, which opens WhatsApp with the reply already written. With an empty list, guests are asked to reply to the message that brought the invitation. `rsvp.enabled: false` removes the section. |
 | Schedule | `schedule` | Add, remove or reorder events. Leave `time: ''` to show "Time to be announced", or set e.g. `time: '9:00 AM'`. |
 | Music | `music` | See below. |
 

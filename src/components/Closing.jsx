@@ -4,6 +4,7 @@ import { getDateLabel } from '../utils/date.js';
 import CoupleNames from './CoupleNames.jsx';
 import Reveal from './Reveal.jsx';
 import { Divider, FloralCorner } from './decor/Florals.jsx';
+import Petals from './decor/Petals.jsx';
 
 export default function Closing() {
   const { closing, couple, venue } = wedding;
@@ -13,6 +14,7 @@ export default function Closing() {
       <div className="closing__body">
         <FloralCorner position="bl" />
         <FloralCorner position="br" />
+        <Petals count={6} />
 
         <div className="container container--narrow">
           <Reveal>

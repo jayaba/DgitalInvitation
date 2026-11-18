@@ -2,20 +2,25 @@ import { ChevronDown } from 'lucide-react';
 import { wedding } from '../config/wedding.js';
 import { getDateLabel } from '../utils/date.js';
 import CoupleNames from './CoupleNames.jsx';
-import { Divider, FloralCorner } from './decor/Florals.jsx';
+import { Wreath } from './decor/Florals.jsx';
+import PaintedCorner from './decor/PaintedCorner.jsx';
+import Petals from './decor/Petals.jsx';
 
 export default function Hero() {
   const { tagline, subtitle } = wedding.hero;
 
   return (
     <section id="home" className="hero">
-      <FloralCorner position="tl" />
-      <FloralCorner position="br" />
+      <PaintedCorner position="tl" />
+      <PaintedCorner position="br" />
+      <Petals />
 
       <div className="hero__content">
         <p className="eyebrow">{tagline}</p>
-        <CoupleNames as="h1" />
-        <Divider />
+        <div className="hero__wreath">
+          <Wreath />
+          <CoupleNames as="h1" className="names--stacked" />
+        </div>
         <p className="hero__date">{getDateLabel()}</p>
         <p className="hero__venue">
           {wedding.venue.name}

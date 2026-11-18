@@ -6,6 +6,7 @@
 const TONES = {
   rose: { outer: '#F4E0E6', mid: '#E8C6D0', inner: '#DDB0BE', core: '#CF9AAB', line: '#BC8598' },
   lavender: { outer: '#EFE6F8', mid: '#D8C7F0', inner: '#C6B0E8', core: '#B199DA', line: '#9A80C6' },
+  white: { outer: '#FFFFFF', mid: '#FCF8F3', inner: '#F6EEE3', core: '#EAD9B6', line: '#BFAE94' },
 };
 const SAGE = '#B5C2AC';
 const SAGE_DEEP = '#9DAE94';
@@ -80,6 +81,143 @@ function GoldSprig({ x = 0, y = 0, r = 0, s = 1 }) {
   );
 }
 
+function Floret({ x = 0, y = 0, s = 1, tone = 'lavender' }) {
+  const c = TONES[tone];
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      {PETALS.map((a) => (
+        <ellipse key={a} cx="0" cy="-5" rx="3.400" ry="5" transform={`rotate(${a})`}
+          fill={c.mid} stroke={c.line} strokeOpacity="0.3" strokeWidth="0.4" />
+      ))}
+      <circle r="2" fill={GOLD} />
+    </g>
+  );
+}
+
+// White and rose blooms laid out in overlapping rows, enough to hide what is beneath.
+const VEIL_FLOWERS = Array.from({ length: 20 }, (_, i) => {
+  const row = Math.floor(i / 5);
+  const col = i % 5;
+  return {
+    x: 30 + col * 60 + ((i * 17) % 11) - 5,
+    y: 36 + row * 63 + ((i * 29) % 9) - 4,
+    s: 1.120 + ((i * 7) % 3) * 0.100,
+    r: (i * 53) % 360,
+    tone: (row + col) % 2 ? 'white' : 'rose',
+    motion: veilMotion(i),
+  };
+});
+
+/**
+ * How one bloom moves: a gentle sway while it waits, then a slow, wandering
+ * drift away once the guest touches the flowers. Values are SVG units/seconds.
+ */
+function veilMotion(i) {
+  const side = i % 2 ? 1 : -1;
+  return {
+    '--dx': `${(((i * 37) % 7) - 3) * 42}px`,
+    '--dy': `${i % 4 === 0 ? -(50 + ((i * 13) % 4) * 22) : 70 + ((i * 13) % 5) * 34}px`,
+    '--wx': `${side * (16 + (i % 3) * 10)}px`,
+    '--rot': `${side * (50 + ((i * 11) % 70))}deg`,
+    '--dur': `${5.500 + (i % 4) * 0.800}s`,
+    '--delay': `${((i * 7) % 20) * 0.090}s`,
+    '--sway': `${3 + (i % 3) * 0.800}s`,
+    '--sway-delay': `${-((i * 5) % 7) * 0.400}s`,
+  };
+}
+const VEIL_LEAVES = [
+  [-6, 60, 200], [-4, 170, 170], [306, 90, -20], [304, 200, 15],
+  [110, 268, 80], [240, 266, 110],
+];
+
+/**
+ * A blanket of white and rose flowers. Each bloom is its own group so the
+ * flowers can fade away one after another (see `.veil` in the stylesheet).
+ */
+export function FlowerVeil() {
+  return (
+    <svg className="veil__art" viewBox="0 0 300 262" aria-hidden="true" focusable="false">
+      <rect className="veil__wash" x="-4" y="-4" width="308" height="270" rx="16" fill="#FFFDF9" />
+      {VEIL_LEAVES.map(([x, y, r], i) => (
+        <g key={`${x}-${y}`} className="veil__flower" style={veilMotion(i + 3)}>
+          <Leaf x={x} y={y} r={r} s={0.900} deep={r > 0} />
+        </g>
+      ))}
+      {VEIL_FLOWERS.map((f) => (
+        <g key={`${f.x}-${f.y}`} className="veil__flower" style={f.motion}>
+          <Rose x={f.x} y={f.y} s={f.s} r={f.r} tone={f.tone} />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+const WREATH_R = 168;
+const onRing = (deg, r = WREATH_R) => {
+  const t = (deg * Math.PI) / 180;
+  return { x: +(r * Math.sin(t)).toFixed(1), y: +(-r * Math.cos(t)).toFixed(1) };
+};
+// Angles (clockwise from the top) of the leaves on the right-hand branch;
+// the left-hand branch is its mirror image.
+const WREATH_LEAVES = Array.from({ length: 16 }, (_, i) => 24 + i * 8.800);
+const WREATH_SPRIGS = [46, 82, 118];
+
+/**
+ * A wreath of leaves, lavender and roses that frames the couple's names.
+ * Two branches rise from a cluster of roses at the bottom and nearly meet at the top.
+ */
+export function Wreath({ className = '' }) {
+  const start = onRing(16);
+  const end = onRing(344);
+  return (
+    <svg className={`wreath ${className}`} viewBox="-215 -215 430 430" aria-hidden="true" focusable="false">
+      <path d={`M${start.x} ${start.y}A${WREATH_R} ${WREATH_R} 0 1 1 ${end.x} ${end.y}`}
+        fill="none" stroke={GOLD} strokeWidth="1" strokeOpacity="0.75" />
+
+      {WREATH_SPRIGS.map((deg) => {
+        const p = onRing(deg);
+        return (
+          <g key={deg}>
+            <Lavender x={p.x} y={p.y} r={deg + 315} s={0.520} />
+            <Lavender x={-p.x} y={p.y} r={45 - deg} s={0.520} />
+          </g>
+        );
+      })}
+
+      {WREATH_LEAVES.map((deg, i) => {
+        const p = onRing(deg);
+        const tilt = i % 2 ? 40 : -34;
+        const s = 0.560 + (i % 3) * 0.070;
+        return (
+          <g key={deg}>
+            <Leaf x={p.x} y={p.y} r={deg + 180 + tilt} s={s} deep={i % 2 === 0} />
+            <Leaf x={-p.x} y={p.y} r={-deg - tilt} s={s} deep={i % 2 === 1} />
+          </g>
+        );
+      })}
+
+      {[62, 100, 136].map((deg, i) => {
+        const p = onRing(deg);
+        return (
+          <g key={deg}>
+            <Floret x={p.x} y={p.y} s={1.150} tone={i % 2 ? 'rose' : 'lavender'} />
+            <Floret x={-p.x} y={p.y} s={1.150} tone={i % 2 ? 'lavender' : 'rose'} />
+          </g>
+        );
+      })}
+
+      <Rose x={onRing(20).x} y={onRing(20).y} s={0.420} />
+      <Rose x={onRing(340).x} y={onRing(340).y} s={0.420} tone="lavender" />
+
+      <Leaf x={-18} y={WREATH_R} r={205} s={1.050} />
+      <Leaf x={18} y={WREATH_R} r={-25} s={1.050} deep />
+      <Rose x={-46} y={WREATH_R - 12} s={0.820} r={-20} tone="lavender" />
+      <Rose x={46} y={WREATH_R - 12} s={0.820} r={25} />
+      <Rose x={0} y={WREATH_R} s={1.250} />
+    </svg>
+  );
+}
+
 /**
  * A cluster of roses and lavender for the corner of a section.
  * Drawn for the top-left corner; pass position="tr" | "bl" | "br" to mirror it.
@@ -103,6 +241,20 @@ export function FloralCorner({ position = 'tl', className = '' }) {
       <Leaf x={36} y={44} r={205} s={0.900} />
       <Leaf x={150} y={84} r={30} s={0.850} />
       <Leaf x={84} y={150} r={60} s={0.850} deep />
+
+      <Lavender x={130} y={44} r={52} s={0.950} />
+      <Lavender x={44} y={130} r={218} s={0.950} />
+      <Leaf x={176} y={40} r={-22} s={0.800} />
+      <Leaf x={40} y={176} r={112} s={0.800} deep />
+      <Leaf x={126} y={120} r={45} s={1} />
+
+      <Rose x={118} y={112} s={0.780} r={30} tone="lavender" />
+      <Floret x={162} y={66} s={1.300} tone="rose" />
+      <Floret x={66} y={162} s={1.300} />
+      <Floret x={146} y={98} s={1.100} />
+      <Floret x={98} y={146} s={1.100} tone="rose" />
+      <Floret x={196} y={46} />
+      <Floret x={46} y={196} tone="rose" />
 
       <Rose x={128} y={50} s={1.100} r={20} tone="lavender" />
       <Rose x={50} y={128} s={1.100} r={-15} />
