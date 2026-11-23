@@ -26,7 +26,9 @@ export default function Hero() {
         {hasPhoto ? (
           <>
             <CoupleNames as="h1" />
-            <PhotoFrame photo={photo} alt={hero.alt} className="hero__photo" />
+            <PhotoFrame photo={photo} alt={hero.alt} className="hero__photo">
+              <PaintedCorner position="bl" />
+            </PhotoFrame>
           </>
         ) : (
           // Until the photo is added, the names sit inside a wreath of leaves.

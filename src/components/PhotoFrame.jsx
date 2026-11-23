@@ -1,7 +1,8 @@
 /**
- * A photograph in a gold-edged mount, like a print set into stationery.
- * The picture always keeps its own proportions — nothing is cropped.
- * `photo` comes from the usePhoto hook.
+ * A photograph on a slim cream mount with a hairline of gold, like a print
+ * set into stationery. The picture always keeps its own proportions —
+ * nothing is cropped. `photo` comes from the usePhoto hook; `children` are
+ * optional accents laid over the print (e.g. a small bouquet).
  */
 export default function PhotoFrame({ photo, alt, className = '', children }) {
   return (
