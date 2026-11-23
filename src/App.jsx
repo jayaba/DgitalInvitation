@@ -4,6 +4,8 @@ import OpeningScreen from './components/OpeningScreen.jsx';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import InvitationMessage from './components/InvitationMessage.jsx';
+import OurStory from './components/OurStory.jsx';
+import BackToTop from './components/BackToTop.jsx';
 import Countdown from './components/Countdown.jsx';
 import WeddingDetails from './components/WeddingDetails.jsx';
 import Schedule from './components/Schedule.jsx';
@@ -71,6 +73,7 @@ export default function App() {
         <main>
           <Hero />
           <InvitationMessage />
+          <OurStory />
           <Countdown />
           <WeddingDetails />
           <Schedule />
@@ -79,6 +82,7 @@ export default function App() {
         <Closing />
       </div>
 
+      {isOpen && <BackToTop />}
       {wedding.music.enabled && <MusicPlayer ref={musicRef} isVisible={isOpen} />}
     </div>
   );

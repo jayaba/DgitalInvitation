@@ -66,6 +66,23 @@ export const wedding = {
     subtitle: 'Join us as we celebrate our love and begin our forever.',
   },
 
+  // The two pre-wedding photographs. Put the files in `public/images/`.
+  // Until a file is there, the site simply leaves that photo out.
+  photos: {
+    hero: {
+      file: 'images/preshoot-1.jpg',
+      alt: 'Eranga and Piyumi',
+    },
+    story: {
+      file: 'images/preshoot-2.jpg',
+      alt: 'Eranga and Piyumi together',
+      eyebrow: 'Our Story',
+      caption: 'A beautiful journey, leading to forever.',
+      // Optional: a few sentences of your own story. Leave '' to show none.
+      text: '',
+    },
+  },
+
   invitation: {
     title: 'You Are Invited',
     paragraphs: [
@@ -80,19 +97,23 @@ export const wedding = {
   },
 
   // Leave `time` empty ('') to show "Time to be announced".
+  // `icon` is one of: 'guests', 'heart', 'celebration', 'meal', 'music'.
   schedule: [
     {
       time: '',
+      icon: 'guests',
       title: 'Guest Arrival',
       description: 'A warm welcome as family and friends gather.',
     },
     {
       time: '',
+      icon: 'heart',
       title: 'Wedding Ceremony',
       description: 'We exchange our vows, surrounded by the people we love.',
     },
     {
       time: '',
+      icon: 'celebration',
       title: 'Celebrations & Reception',
       description: 'Good food, music and joyful moments together.',
     },
@@ -126,6 +147,9 @@ export const wedding = {
   },
 
   closing: {
+    // "Share Invitation" opens WhatsApp with this text and the site's link.
+    shareLabel: 'Share Invitation',
+    shareText: 'You are warmly invited to the wedding of Eranga & Piyumi.',
     signOff: 'With Love,',
     message: 'Your presence will make our special day even more memorable.',
   },

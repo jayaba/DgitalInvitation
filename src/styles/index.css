@@ -1488,6 +1488,257 @@ svg {
 }
 
 /* ─────────────────────────────────────────────
+   Photographs
+   ───────────────────────────────────────────── */
+/* A print in a white mount with a gold edge. The picture keeps its own
+   proportions, so nothing is ever cropped. */
+.photo {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.photo--portrait { max-width: 420px; }
+.photo--landscape { max-width: 760px; }
+
+.photo__mount {
+  position: relative;
+  padding: 8px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  outline: 1px solid rgba(214, 183, 122, 0.45);
+  outline-offset: 6px;
+  background: #fff;
+  box-shadow: 0 34px 60px -34px rgba(81, 68, 93, 0.55);
+}
+
+.photo__mount img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+/* Hero: names above the first photograph */
+.hero--photo .names {
+  margin-top: 14px;
+  font-size: clamp(3.2rem, 15vw, 5rem);
+}
+
+.hero__photo {
+  margin: 28px auto 36px;
+}
+
+/* keep a tall portrait within the height of the screen */
+.hero__photo.photo--portrait {
+  max-width: min(400px, 48vh);
+}
+
+/* Our Story: the second photograph beside its caption */
+.story {
+  background: linear-gradient(180deg, var(--cream) 0%, #f8f1fb 50%, var(--cream) 100%);
+}
+
+.story__layout {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+
+/* a second gold outline, set slightly off the print */
+.photo--offset::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  transform: translate(12px, 12px);
+}
+
+.photo--offset .photo__mount {
+  outline: 0;
+}
+
+.story__caption {
+  margin-top: 12px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 6.5vw, 2.6rem);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.story__body {
+  margin-bottom: 14px;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.story__sign {
+  font-family: var(--font-script);
+  font-size: 2.1rem;
+  line-height: 1.3;
+  word-spacing: 0.18em;
+  color: var(--plum-deep);
+}
+
+@media (min-width: 820px) {
+  .story__layout:not(.story__layout--landscape) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    gap: 76px;
+  }
+
+  .story__layout:not(.story__layout--landscape) .story__text {
+    text-align: left;
+  }
+
+  .story__layout:not(.story__layout--landscape) .divider {
+    margin-left: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Painted bouquets in other sections
+   ───────────────────────────────────────────── */
+/* the bottom-right bouquet, mirrored into the bottom-left corner */
+.painted--bl {
+  bottom: 0;
+  left: 0;
+  aspect-ratio: 1010 / 730;
+  background-size: 152% auto;
+  background-position: right bottom;
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 9%, 18% 9%);
+  transform: scaleX(-1);
+}
+
+.venue .painted {
+  width: clamp(118px, 33vw, 210px);
+}
+
+.closing .painted {
+  width: min(46vw, 340px);
+}
+
+.closing__share {
+  margin-top: 30px;
+}
+
+/* ─────────────────────────────────────────────
+   Section refinements
+   ───────────────────────────────────────────── */
+/* Invitation message on an arched sheet */
+.invitation__frame {
+  max-width: 520px;
+  margin-inline: auto;
+  padding: clamp(72px, 21vw, 100px) clamp(22px, 6vw, 46px) 50px;
+  border: 1px solid var(--gold);
+  border-radius: 260px 260px 14px 14px;
+  outline: 1px solid rgba(214, 183, 122, 0.45);
+  outline-offset: 7px;
+  background: linear-gradient(180deg, #f8f1fc 0%, var(--cream) 46%);
+}
+
+.invitation__monogram {
+  margin-bottom: 4px;
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  letter-spacing: 0.08em;
+  color: var(--plum-deep);
+}
+
+.invitation__monogram span {
+  margin-inline: 0.25em;
+  font-size: 0.8em;
+  font-style: italic;
+  color: var(--gold-deep);
+}
+
+/* Countdown: each number in a fine gold ring */
+.countdown__grid {
+  gap: clamp(10px, 3.5vw, 26px);
+  max-width: 560px;
+}
+
+.countdown__unit {
+  gap: 14px;
+  padding-inline: 0;
+}
+
+.countdown__unit + .countdown__unit {
+  border-left: 0;
+}
+
+.countdown__value {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 112px;
+  aspect-ratio: 1;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  outline: 1px solid rgba(214, 183, 122, 0.4);
+  outline-offset: 4px;
+  background: rgba(255, 253, 249, 0.6);
+  font-size: clamp(1.7rem, 8vw, 3rem);
+}
+
+/* Schedule: an icon in a gold ring marks each moment */
+.timeline::before {
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+}
+
+.timeline__item {
+  padding-left: 68px;
+}
+
+.timeline__marker {
+  display: grid;
+  place-items: center;
+  width: 41px;
+  height: 41px;
+  border: 1px solid var(--gold);
+  background: #fffbfa;
+  box-shadow: 0 0 0 5px #fffbfa;
+  color: var(--plum);
+}
+
+/* ─────────────────────────────────────────────
+   Back-to-top button
+   ───────────────────────────────────────────── */
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.92);
+  box-shadow: 0 8px 22px -12px rgba(81, 68, 93, 0.5);
+  color: var(--plum-deep);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 8px;
+  transition:
+    opacity 0.4s var(--ease),
+    translate 0.4s var(--ease),
+    visibility 0s 0.4s;
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+
+/* ─────────────────────────────────────────────
    Reduced motion
    ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

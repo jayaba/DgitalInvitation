@@ -159,30 +159,19 @@ const onRing = (deg, r = WREATH_R) => {
 };
 // Angles (clockwise from the top) of the leaves on the right-hand branch;
 // the left-hand branch is its mirror image.
-const WREATH_LEAVES = Array.from({ length: 16 }, (_, i) => 24 + i * 8.800);
-const WREATH_SPRIGS = [46, 82, 118];
+const WREATH_LEAVES = Array.from({ length: 18 }, (_, i) => 20 + i * 8.600);
 
 /**
- * A wreath of leaves, lavender and roses that frames the couple's names.
- * Two branches rise from a cluster of roses at the bottom and nearly meet at the top.
+ * A wreath of leaves on a fine gold ring, framing the couple's names.
+ * Two branches rise from the bottom and nearly meet at the top.
  */
 export function Wreath({ className = '' }) {
-  const start = onRing(16);
-  const end = onRing(344);
+  const start = onRing(12);
+  const end = onRing(348);
   return (
     <svg className={`wreath ${className}`} viewBox="-215 -215 430 430" aria-hidden="true" focusable="false">
       <path d={`M${start.x} ${start.y}A${WREATH_R} ${WREATH_R} 0 1 1 ${end.x} ${end.y}`}
         fill="none" stroke={GOLD} strokeWidth="1" strokeOpacity="0.75" />
-
-      {WREATH_SPRIGS.map((deg) => {
-        const p = onRing(deg);
-        return (
-          <g key={deg}>
-            <Lavender x={p.x} y={p.y} r={deg + 315} s={0.520} />
-            <Lavender x={-p.x} y={p.y} r={45 - deg} s={0.520} />
-          </g>
-        );
-      })}
 
       {WREATH_LEAVES.map((deg, i) => {
         const p = onRing(deg);
@@ -196,24 +185,10 @@ export function Wreath({ className = '' }) {
         );
       })}
 
-      {[62, 100, 136].map((deg, i) => {
-        const p = onRing(deg);
-        return (
-          <g key={deg}>
-            <Floret x={p.x} y={p.y} s={1.150} tone={i % 2 ? 'rose' : 'lavender'} />
-            <Floret x={-p.x} y={p.y} s={1.150} tone={i % 2 ? 'lavender' : 'rose'} />
-          </g>
-        );
-      })}
-
-      <Rose x={onRing(20).x} y={onRing(20).y} s={0.420} />
-      <Rose x={onRing(340).x} y={onRing(340).y} s={0.420} tone="lavender" />
-
-      <Leaf x={-18} y={WREATH_R} r={205} s={1.050} />
-      <Leaf x={18} y={WREATH_R} r={-25} s={1.050} deep />
-      <Rose x={-46} y={WREATH_R - 12} s={0.820} r={-20} tone="lavender" />
-      <Rose x={46} y={WREATH_R - 12} s={0.820} r={25} />
-      <Rose x={0} y={WREATH_R} s={1.250} />
+      <circle cx={start.x} cy={start.y} r="2" fill={GOLD} />
+      <circle cx={end.x} cy={end.y} r="2" fill={GOLD} />
+      <path d={`M0 ${WREATH_R - 7}l7 7-7 7-7-7z`} fill="#FFFDF9" stroke={GOLD} strokeWidth="1" />
+      <path d={`M0 ${WREATH_R - 3}l3 3-3 3-3-3z`} fill={GOLD} />
     </svg>
   );
 }

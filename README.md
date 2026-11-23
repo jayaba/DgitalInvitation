@@ -25,6 +25,8 @@ Everything is in **one file: [`src/config/wedding.js`](src/config/wedding.js)**.
 | Names | `couple` | |
 | Venue and map link | `venue` | To use an exact map pin: open the venue in Google Maps → Share → copy link → paste into `venue.mapsUrl`. |
 | Invitation wording | `opening`, `hero`, `invitation`, `closing` | |
+| Photographs | `photos` | Put `preshoot-1.jpg` (top of the page) and `preshoot-2.jpg` ("Our Story") in `public/images/`. Portrait or landscape both work and nothing is cropped. Until a file is there, that photo is simply left out. Save each about 1600 px on the longest side, under ~400 KB. `photos.story.caption` and `photos.story.text` hold the Our Story wording. |
+| Share button | `closing.shareLabel`, `closing.shareText` | Opens WhatsApp with the text and the site's link. |
 | RSVP | `rsvp` | `rsvp.whatsappContacts` lists who receives replies (`number` in digits only, international format, e.g. `94771234567`; `name` is the button text, or leave `''` to show the number). Guests choose "Joyfully Accept" or "Regretfully Decline", then tap a contact, which opens WhatsApp with the reply already written. With an empty list, guests are asked to reply to the message that brought the invitation. `rsvp.enabled: false` removes the section. |
 | Schedule | `schedule` | Add, remove or reorder events. Leave `time: ''` to show "Time to be announced", or set e.g. `time: '9:00 AM'`. |
 | Music | `music` | See below. |

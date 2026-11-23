@@ -4,7 +4,7 @@ import { getCalendarLinks, getDateLabel, getTimeLabel } from '../utils/date.js';
 import DateCalendar from './DateCalendar.jsx';
 import Reveal from './Reveal.jsx';
 import SectionHeading from './SectionHeading.jsx';
-import { FloralCorner } from './decor/Florals.jsx';
+import PaintedCorner from './decor/PaintedCorner.jsx';
 
 export default function WeddingDetails() {
   const { couple, venue } = wedding;
@@ -59,8 +59,8 @@ export default function WeddingDetails() {
         </Reveal>
 
         <Reveal className="venue">
-          <FloralCorner position="tr" />
-          <FloralCorner position="bl" />
+          <PaintedCorner position="tl" />
+          <PaintedCorner position="br" />
           <div className="venue__inner">
             <MapPin size={26} strokeWidth={1.300} aria-hidden="true" />
             <p className="eyebrow">The Venue</p>
