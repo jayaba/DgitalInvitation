@@ -1,6 +1,6 @@
-import { CalendarHeart, CalendarPlus, Clock, MapPin, Navigation } from 'lucide-react';
+import { CalendarHeart, CalendarPlus, Landmark, MapPin, Navigation } from 'lucide-react';
 import { wedding } from '../config/wedding.js';
-import { getCalendarLinks, getDateLabel, getTimeLabel } from '../utils/date.js';
+import { getCalendarLinks, getDateLabel } from '../utils/date.js';
 import DateCalendar from './DateCalendar.jsx';
 import Reveal from './Reveal.jsx';
 import SectionHeading from './SectionHeading.jsx';
@@ -10,6 +10,7 @@ import { HeartClock, LinkedHearts, TravelPath } from './decor/VenueArt.jsx';
 export default function WeddingDetails() {
   const { couple, venue } = wedding;
   const calendarLinks = getCalendarLinks();
+  const poruwa = wedding.schedule.find((event) => event.art === 'poruwa');
 
   return (
     <section id="details" className="section details">
@@ -38,11 +39,14 @@ export default function WeddingDetails() {
                 <dt>Date</dt>
                 <dd>{getDateLabel()}</dd>
               </div>
-              <div className="details__fact">
-                <Clock size={22} strokeWidth={1.400} aria-hidden="true" />
-                <dt>Time</dt>
-                <dd>{getTimeLabel()}</dd>
-              </div>
+              {/* the ceremony time, taken from the schedule so it is set in one place */}
+              {poruwa?.time && (
+                <div className="details__fact">
+                  <Landmark size={22} strokeWidth={1.400} aria-hidden="true" />
+                  <dt>Poruwa</dt>
+                  <dd>{poruwa.time}</dd>
+                </div>
+              )}
             </dl>
 
             {calendarLinks && (

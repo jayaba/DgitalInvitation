@@ -200,7 +200,7 @@ export const wedding = {
     file: 'music/wedding-song.mp3',
     // true = start the music when the guest taps "Open Invitation".
     // false = only when they tap the music button.
-    playOnOpen: false,
+    playOnOpen: true,
     volume: 0.6,
   },
 };

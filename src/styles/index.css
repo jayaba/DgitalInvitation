@@ -3836,6 +3836,12 @@ svg {
   animation-delay: -3s;
 }
 
+/* Wedding details: date and ceremony time sit side by side; if there is
+   only the date, it takes the full width */
+.details__facts dl > .details__fact:only-child {
+  grid-column: 1 / -1;
+}
+
 /* ─────────────────────────────────────────────
    Back-to-top button
    ───────────────────────────────────────────── */
