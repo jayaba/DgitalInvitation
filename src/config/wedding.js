@@ -29,8 +29,9 @@ export const wedding = {
     // Length of the celebration, used only for the "Save to calendar" entry.
     durationHours: 6,
 
-    // Shown on the flowers that cover the calendar until a guest touches them.
-    revealHint: 'Touch the flowers to reveal the date',
+    // Shown on the flowers that cover the calendar until a guest starts
+    // brushing them away with a finger.
+    revealHint: 'Brush the flowers away to reveal the date',
 
     monthLabel: 'December 2026',
     timePendingLabel: 'Time to be announced',

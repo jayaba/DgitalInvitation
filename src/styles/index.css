@@ -3702,6 +3702,141 @@ svg {
 }
 
 /* ─────────────────────────────────────────────
+   Calendar flowers, brushed away by hand
+   ───────────────────────────────────────────── */
+/* Up-and-down swipes still scroll the page; the flowers under the finger
+   are brushed away as it passes, in any direction. */
+.veil {
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.veil__wash {
+  transition: opacity 0.9s ease;
+}
+
+/* a flower that has been brushed slides off the way it was pushed */
+.veil__flower.is-swept,
+.veil.is-revealed .veil__flower.is-swept {
+  animation: veil-sweep 1.500s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@keyframes veil-sweep {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--sx), var(--sy)) rotate(var(--srot)) scale(0.72);
+    opacity: 0;
+  }
+}
+
+/* the hint steps aside as soon as the guest starts */
+.veil.has-started .veil__hint {
+  opacity: 0;
+}
+
+/* ─────────────────────────────────────────────
+   Opening screen: clear button, bright lanterns swinging in a breeze
+   ───────────────────────────────────────────── */
+/* "View Invitation": see-through, with a gold edge and purple lettering */
+.btn--invite {
+  border: 1px solid var(--gold);
+  background: rgba(255, 253, 249, 0.14);
+  box-shadow: 0 0 0 0 rgba(214, 183, 122, 0);
+  color: var(--plum-deep);
+  font-weight: 500;
+}
+
+.btn--invite:hover {
+  background: rgba(214, 183, 122, 0.14);
+  box-shadow: 0 0 24px -4px rgba(214, 183, 122, 0.8);
+}
+
+.btn--invite:active,
+.opening.is-pressed .btn--invite,
+.opening.is-leaving .btn--invite {
+  background: rgba(214, 183, 122, 0.2);
+  box-shadow:
+    0 0 0 6px rgba(214, 183, 122, 0.2),
+    0 0 36px 4px rgba(214, 183, 122, 0.8);
+}
+
+/* Lanterns: a strong warm light that flickers like a flame… */
+.lantern svg {
+  filter: drop-shadow(0 0 10px rgba(255, 208, 110, 0.95)) drop-shadow(0 0 26px rgba(255, 200, 90, 0.6));
+}
+
+.lantern__halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lantern-flicker 3.200s ease-in-out infinite;
+}
+
+.lantern__core {
+  animation: lantern-flicker 2.300s ease-in-out -1s infinite;
+}
+
+@keyframes lantern-flicker {
+  0%, 100% { opacity: 0.85; scale: 1; }
+  18% { opacity: 1; scale: 1.08; }
+  34% { opacity: 0.72; scale: 0.96; }
+  52% { opacity: 1; scale: 1.1; }
+  70% { opacity: 0.8; scale: 1; }
+  86% { opacity: 0.95; scale: 1.05; }
+}
+
+/* …and swings this way and that from the top of its chain, as if caught
+   by the wind: an uneven rhythm, a little different for each lantern. */
+.lantern {
+  --swing: 6deg;
+  animation: lantern-wind 7s ease-in-out infinite;
+}
+
+@keyframes lantern-wind {
+  0% { rotate: calc(var(--swing) * -0.5); }
+  14% { rotate: calc(var(--swing) * 1); }
+  28% { rotate: calc(var(--swing) * -0.8); }
+  43% { rotate: calc(var(--swing) * 0.55); }
+  57% { rotate: calc(var(--swing) * -1); }
+  72% { rotate: calc(var(--swing) * 0.85); }
+  86% { rotate: calc(var(--swing) * -0.25); }
+  100% { rotate: calc(var(--swing) * -0.5); }
+}
+
+/* in front of the arch, so a lantern stays in view as it swings across its edge */
+.opening .lantern {
+  z-index: 2;
+}
+
+@media (max-width: 719px) {
+  .opening__lantern--left { left: 10px; }
+  .opening__lantern--right { right: 10px; }
+}
+
+/* a long chain swings through a smaller angle, a short one through a wider */
+.opening__lantern--left {
+  --swing: 3.500deg;
+  animation-duration: 8.500s;
+}
+
+.opening__lantern--right {
+  --swing: 9deg;
+  animation-duration: 6.200s;
+  animation-delay: -1.500s;
+}
+
+.opening__lantern--far {
+  --swing: 6.500deg;
+  animation-duration: 7.400s;
+  animation-delay: -3s;
+}
+
+/* ─────────────────────────────────────────────
    Back-to-top button
    ───────────────────────────────────────────── */
 .to-top {

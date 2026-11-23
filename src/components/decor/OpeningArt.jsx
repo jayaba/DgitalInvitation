@@ -20,8 +20,15 @@ export function HangingLantern({ className = '' }) {
             <stop offset="0" stopColor="#FFF6CF" />
             <stop offset="1" stopColor="#F5C96A" />
           </radialGradient>
+          <radialGradient id="lantern-halo">
+            <stop offset="0" stopColor="#FFE08A" stopOpacity="0.750" />
+            <stop offset="0.450" stopColor="#FFD877" stopOpacity="0.300" />
+            <stop offset="1" stopColor="#FFD877" stopOpacity="0" />
+          </radialGradient>
         </defs>
-        <circle cx="22" cy="40" r="27" fill="#FBE7A6" opacity="0.380" />
+        {/* the light: a wide soft halo and a brighter core, both flickering */}
+        <circle className="lantern__halo" cx="22" cy="40" r="46" fill="url(#lantern-halo)" />
+        <circle className="lantern__core" cx="22" cy="40" r="24" fill="#FFE9A8" opacity="0.550" />
         <circle cx="22" cy="5" r="3.500" stroke={GOLD_DEEP} strokeWidth="1.400" />
         <path d="M12 20 22 9l10 11z" fill={GOLD_DEEP} />
         <rect x="10" y="20" width="24" height="4" rx="1" fill={GOLD} />

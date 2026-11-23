@@ -131,21 +131,49 @@ const VEIL_LEAVES = [
 ];
 
 /**
- * A blanket of white and rose flowers. Each bloom is its own group so the
- * flowers can fade away one after another (see `.veil` in the stylesheet).
+ * Every piece of the veil with an id and the point at its centre (in the
+ * SVG's own 300 × 262 units), so the calendar can tell which pieces a
+ * finger is touching and brush just those away.
  */
-export function FlowerVeil() {
+export const VEIL_ITEMS = [
+  ...VEIL_LEAVES.map(([x, y, r], i) => ({
+    id: `leaf-${i}`,
+    kind: 'leaf',
+    // a leaf is drawn outward from (x, y); its middle is about 18 units along
+    cx: x + 18 * Math.cos((r * Math.PI) / 180),
+    cy: y + 18 * Math.sin((r * Math.PI) / 180),
+    x,
+    y,
+    r,
+    motion: veilMotion(i + 3),
+  })),
+  ...VEIL_FLOWERS.map((f, i) => ({ id: `rose-${i}`, kind: 'rose', cx: f.x, cy: f.y, ...f })),
+];
+
+export const VEIL_ROSE_COUNT = VEIL_FLOWERS.length;
+
+/**
+ * A blanket of white and rose flowers. Each bloom is its own group, so it
+ * can be brushed away on its own or drift off with the rest.
+ *
+ *   swept        { [id]: style } for pieces the guest has brushed away;
+ *                the style carries where that piece flies off to
+ *   washOpacity  how solid the ivory backing behind the flowers still is
+ *   svgRef       lets the calendar convert finger positions into SVG units
+ */
+export function FlowerVeil({ swept = {}, washOpacity = 1, svgRef }) {
   return (
-    <svg className="veil__art" viewBox="0 0 300 262" aria-hidden="true" focusable="false">
-      <rect className="veil__wash" x="-4" y="-4" width="308" height="270" rx="16" fill="#FFFDF9" />
-      {VEIL_LEAVES.map(([x, y, r], i) => (
-        <g key={`${x}-${y}`} className="veil__flower" style={veilMotion(i + 3)}>
-          <Leaf x={x} y={y} r={r} s={0.900} deep={r > 0} />
-        </g>
-      ))}
-      {VEIL_FLOWERS.map((f) => (
-        <g key={`${f.x}-${f.y}`} className="veil__flower" style={f.motion}>
-          <Rose x={f.x} y={f.y} s={f.s} r={f.r} tone={f.tone} />
+    <svg ref={svgRef} className="veil__art" viewBox="0 0 300 262" aria-hidden="true" focusable="false">
+      <rect className="veil__wash" x="-4" y="-4" width="308" height="270" rx="16" fill="#FFFDF9"
+        style={{ opacity: washOpacity }} />
+      {VEIL_ITEMS.map((item) => (
+        <g key={item.id} className={`veil__flower ${swept[item.id] ? 'is-swept' : ''}`}
+          style={{ ...item.motion, ...swept[item.id] }}>
+          {item.kind === 'leaf' ? (
+            <Leaf x={item.x} y={item.y} r={item.r} s={0.900} deep={item.r > 0} />
+          ) : (
+            <Rose x={item.x} y={item.y} s={item.s} r={item.r} tone={item.tone} />
+          )}
         </g>
       ))}
     </svg>
