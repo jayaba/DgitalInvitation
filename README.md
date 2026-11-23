@@ -6,7 +6,7 @@ No backend, no database, no paid services. It deploys free on GitHub Pages.
 ## What's inside
 
 - Opening screen with an "Open Invitation" button
-- Hero, invitation message, live countdown, wedding details, venue with Google Maps directions, day schedule, closing
+- Hero, invitation message, live countdown, wedding details, venue with Google Maps directions, day schedule, RSVP
 - Responsive navigation and smooth scrolling
 - Background music with a play/pause button (never autoplays)
 - Floral artwork drawn in SVG, so there are no image files to load
@@ -24,9 +24,8 @@ Everything is in **one file: [`src/config/wedding.js`](src/config/wedding.js)**.
 | Calendar entry length | `date.durationHours` | Used by the "Save to Calendar" button, which appears once `isConfirmed` is `true`. The mini calendar circles the wedding day at the same time. |
 | Names | `couple` | |
 | Venue and map link | `venue` | To use an exact map pin: open the venue in Google Maps → Share → copy link → paste into `venue.mapsUrl`. |
-| Invitation wording | `opening`, `hero`, `invitation`, `closing` | |
-| Photographs | `photos` | Put `preshoot-1.jpg` (top of the page) and `preshoot-2.jpg` ("Our Story") in `public/images/`. Portrait or landscape both work and nothing is cropped. Until a file is there, that photo is simply left out. Save each about 1600 px on the longest side, under ~400 KB. `photos.story.caption` and `photos.story.text` hold the Our Story wording. |
-| Share button | `closing.shareLabel`, `closing.shareText` | Opens WhatsApp with the text and the site's link. |
+| Invitation wording | `opening`, `hero`, `invitation` | |
+| Photographs | `photos` | The photos live in `public/images/`: `preshoot-2.jpg` (top of the page) and `preshoot-3.jpg` ("Our Story"). To change one, replace the file or point `photos.hero.file` / `photos.story.file` at a new one. Portrait or landscape both work and nothing is cropped. Until a file is there, that photo is simply left out. Save each about 1600 px on the longest side, under ~400 KB. `photos.story.caption` and `photos.story.text` hold the Our Story wording. |
 | RSVP | `rsvp` | `rsvp.whatsappContacts` lists who receives replies (`number` in digits only, international format, e.g. `94771234567`; `name` is the button text, or leave `''` to show the number). Guests choose "Joyfully Accept" or "Regretfully Decline", then tap a contact, which opens WhatsApp with the reply already written. With an empty list, guests are asked to reply to the message that brought the invitation. `rsvp.enabled: false` removes the section. |
 | Schedule | `schedule` | Add, remove or reorder events. Leave `time: ''` to show "Time to be announced", or set e.g. `time: '9:00 AM'`. |
 | Music | `music` | See below. |

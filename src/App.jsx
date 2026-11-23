@@ -12,6 +12,7 @@ import Schedule from './components/Schedule.jsx';
 import Rsvp from './components/Rsvp.jsx';
 import Closing from './components/Closing.jsx';
 import MusicPlayer from './components/MusicPlayer.jsx';
+import FlowerRain from './components/decor/FlowerRain.jsx';
 
 /**
  * When each stage of the opening begins, in milliseconds after the tap.
@@ -20,10 +21,15 @@ import MusicPlayer from './components/MusicPlayer.jsx';
 const TIMELINE = { leaving: 550, opening: 1500, done: 3300 };
 // For guests who prefer reduced motion: a quick, simple fade.
 const TIMELINE_REDUCED = { leaving: 0, opening: 120, done: 500 };
+// The flower rain starts as the welcome card fades, and is removed once the
+// last flower has fallen off the bottom of the screen.
+const RAIN_STARTS = 450;
+const RAIN_ENDS = 13800;
 
 export default function App() {
   // idle → pressed → leaving → opening → done
   const [phase, setPhase] = useState('idle');
+  const [isRaining, setIsRaining] = useState(false);
   const hasStarted = useRef(false);
   const timers = useRef([]);
   const musicRef = useRef(null);
@@ -62,6 +68,11 @@ export default function App() {
     ['leaving', 'opening', 'done'].forEach((next) => {
       timers.current.push(setTimeout(() => setPhase(next), timeline[next]));
     });
+
+    if (!reduced) {
+      timers.current.push(setTimeout(() => setIsRaining(true), RAIN_STARTS));
+      timers.current.push(setTimeout(() => setIsRaining(false), RAIN_ENDS));
+    }
   };
 
   return (
@@ -82,6 +93,7 @@ export default function App() {
         <Closing />
       </div>
 
+      {isRaining && <FlowerRain />}
       {isOpen && <BackToTop />}
       {wedding.music.enabled && <MusicPlayer ref={musicRef} isVisible={isOpen} />}
     </div>

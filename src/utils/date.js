@@ -26,6 +26,17 @@ export function getDateLabel() {
   }).format(weddingDate);
 }
 
+/** e.g. "21 December 2026" (no weekday) — or "December 2026" until confirmed. */
+export function getShortDateLabel() {
+  if (!isConfirmed) return monthLabel;
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone,
+  }).format(weddingDate);
+}
+
 /** e.g. "9:00 AM" — or "Time to be announced" until the time is confirmed. */
 export function getTimeLabel() {
   if (!hasTime) return timePendingLabel;

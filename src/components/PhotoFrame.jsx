@@ -13,7 +13,6 @@ export default function PhotoFrame({ photo, alt, className = '', children }) {
           alt={alt}
           width={photo.width}
           height={photo.height}
-          decoding="async"
         />
       </div>
       {children}

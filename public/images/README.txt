@@ -1,7 +1,7 @@
 ﻿Put the two pre-wedding photographs in this folder:
 
-  preshoot-1.jpg   - shown at the top of the invitation, under the names
-  preshoot-2.jpg   - shown in the "Our Story" section
+  preshoot-2.jpg   - shown at the top of the invitation, under the names
+  preshoot-3.jpg   - shown in the "Our Story" section
 
 Portrait or landscape both work; the pictures are never cropped.
 For fast loading on mobile data, save each as a JPEG about 1600 px on its

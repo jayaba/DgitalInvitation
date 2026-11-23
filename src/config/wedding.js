@@ -43,6 +43,9 @@ export const wedding = {
   venue: {
     name: 'Senuri Grand Castello',
     location: 'Diulapitiya, Sri Lanka',
+    // The playful lines on the venue card.
+    lateLine: "Don't be fashionably late. We've got a wedding to celebrate!",
+    whereLine: 'Where are you? 😉',
     // A normal Google Maps link (no API key needed). To point at an exact
     // pin, open the venue in Google Maps, tap Share and paste that link here.
     mapsUrl:
@@ -62,22 +65,30 @@ export const wedding = {
   },
 
   hero: {
-    tagline: 'Two Hearts, One Beautiful Journey',
-    subtitle: 'Join us as we celebrate our love and begin our forever.',
+    // Secondary heading beneath the couple's names.
+    heading: 'Love, Laughter & Happily Ever After',
+    // The welcoming line shown beneath that heading.
+    tagline: "Put on your best, bring your brightest smiles, and let's celebrate!",
+    // Two closing lines at the foot of the hero, under the date and venue.
+    inviteLead: "We've saved a place for you. You're on the guest list!",
+    inviteNote: "Bring the energy, we'll bring the celebration!",
   },
 
   // The two pre-wedding photographs. Put the files in `public/images/`.
   // Until a file is there, the site simply leaves that photo out.
   photos: {
     hero: {
-      file: 'images/preshoot-1.jpg',
+      file: 'images/preshoot-2.jpg', // the landscape photograph
       alt: 'Eranga and Piyumi',
     },
     story: {
-      file: 'images/preshoot-2.jpg',
+      file: 'images/preshoot-3.jpg',
       alt: 'Eranga and Piyumi together',
-      eyebrow: 'Our Story',
+      eyebrow: 'A little about us',
+      title: 'Our Story',
       caption: 'A beautiful journey, leading to forever.',
+      // Small closing line under the couple's names.
+      closing: 'And now, our favourite chapter begins...',
       // Optional: a few sentences of your own story. Leave '' to show none.
       text: '',
     },
@@ -85,10 +96,13 @@ export const wedding = {
 
   invitation: {
     title: 'You Are Invited',
-    paragraphs: [
-      'With the blessings of our families, we joyfully invite you to celebrate the beginning of our forever.',
-      'Together with our loved ones, we would be delighted to have your presence as we begin this beautiful journey of love and togetherness.',
-    ],
+    // Small line between the heading and the couple's names.
+    intro: 'To celebrate their wedding',
+    // The main wording, then a supporting line shown in italic beneath it.
+    message:
+      'Blessed with the love of our families, we look forward to sharing this beautiful occasion with those who mean so much to us.',
+    supportingMessage:
+      'Our happiest moments are made even sweeter when shared with the people we love.',
   },
 
   countdown: {
@@ -98,32 +112,58 @@ export const wedding = {
 
   // Leave `time` empty ('') to show "Time to be announced".
   // `icon` is one of: 'guests', 'heart', 'celebration', 'meal', 'music'.
+  //
+  // For each event:
+  //   time        shown on the lavender ribbon; '' shows "To be announced"
+  //   timeIcon    'infinity' puts an infinity sign either side of the time
+  //   icon        the round marker: 'guests', 'poruwa', 'cheers', 'heart',
+  //               'celebration', 'meal' or 'music'
+  //   note        the playful handwritten line on the brush stroke
+  //   art         the illustration: 'welcome', 'poruwa' or 'reception'
+  //   featured    true gives the card a little extra emphasis
+  scheduleHeading: {
+    eyebrow: 'Order of the Day',
+    title: 'Wedding Day Schedule',
+    timePending: 'To be announced',
+  },
+
   schedule: [
     {
-      time: '',
+      time: '09:00 AM',
       icon: 'guests',
       title: 'Guest Arrival',
       description: 'A warm welcome as family and friends gather.',
+      note: "Don't be late! The celebration starts with you!",
+      art: 'welcome',
     },
     {
-      time: '',
-      icon: 'heart',
-      title: 'Wedding Ceremony',
+      // Set to '' to show "To be announced" instead.
+      time: '10:18 AM',
+      icon: 'poruwa',
+      title: 'Poruwa Ceremony',
       description: 'We exchange our vows, surrounded by the people we love.',
+      note: "We've got lots of flowers... we need you to shower us with them!",
+      art: 'poruwa',
+      featured: true,
     },
     {
-      time: '',
-      icon: 'celebration',
+      time: 'Time: Unlimited',
+      timeIcon: 'infinity',
+      icon: 'cheers',
       title: 'Celebrations & Reception',
-      description: 'Good food, music and joyful moments together.',
+      description: "Come hungry, leave happy, and dance like nobody's watching!",
+      note: 'Eat, dance, laugh and celebrate with us! Party until the energy lasts!',
+      art: 'reception',
     },
   ],
 
   // Replies are sent as a WhatsApp message — no server or database needed.
   rsvp: {
     enabled: true,
+    eyebrow: 'A little note from us',
     title: 'Will You Join Us?',
-    message: 'It would mean so much to celebrate this day with you. Kindly let us know if you will be able to join us.',
+    message: "We've saved a place just for you... now, you're coming, right? ❤️",
+    supportingMessage: "We'd love to know if you'll be celebrating with us!",
 
     // Who receives the replies. Numbers are in international format with
     // digits only (Sri Lanka: 94 + the number without its leading 0).
@@ -134,24 +174,23 @@ export const wedding = {
       { name: '', number: '94785882732' },
       { name: '', number: '94787116650' },
     ],
-    sendToLabel: 'Send your reply on WhatsApp to',
+    contactLabel: 'Need to let us know? Just drop us a message!',
     noNumberNote: 'Please reply to the message that brought you this invitation.',
 
     // Optional, e.g. 'Kindly reply by 1 December 2026'. Leave '' to hide.
     replyBy: '',
 
-    acceptLabel: 'Joyfully Accept',
-    declineLabel: 'Regretfully Decline',
-    acceptText: 'We joyfully accept your invitation and look forward to celebrating with you.',
-    declineText: 'With regret, we are unable to attend, but we send you our love and best wishes.',
-  },
+    // The two choices, and what the page says back once one is picked.
+    acceptLabel: 'Count me in!',
+    declineLabel: "Sorry, can't make it",
+    acceptConfirmation:
+      "We're so happy you're joining us! Get ready for a day full of love, laughter and celebrations!",
+    declineConfirmation:
+      "We'll miss having you there, but we'll be thinking of you. Sending lots of love!",
 
-  closing: {
-    // "Share Invitation" opens WhatsApp with this text and the site's link.
-    shareLabel: 'Share Invitation',
-    shareText: 'You are warmly invited to the wedding of Eranga & Piyumi.',
-    signOff: 'With Love,',
-    message: 'Your presence will make our special day even more memorable.',
+    // What is written into the guest's WhatsApp message for each choice.
+    acceptText: 'Count me in! We joyfully accept your invitation and look forward to celebrating with you.',
+    declineText: "Sorry, we can't make it, but we send you our love and best wishes.",
   },
 
   music: {

@@ -13,7 +13,7 @@ const SAGE_DEEP = '#9DAE94';
 const GOLD = '#D6B77A';
 const PETALS = [0, 72, 144, 216, 288];
 
-function Rose({ x = 0, y = 0, s = 1, r = 0, tone = 'rose' }) {
+export function Rose({ x = 0, y = 0, s = 1, r = 0, tone = 'rose' }) {
   const c = TONES[tone];
   return (
     <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`}>
@@ -36,7 +36,7 @@ function Rose({ x = 0, y = 0, s = 1, r = 0, tone = 'rose' }) {
   );
 }
 
-function Leaf({ x = 0, y = 0, r = 0, s = 1, deep = false }) {
+export function Leaf({ x = 0, y = 0, r = 0, s = 1, deep = false }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`}>
       <path d="M0 0C9-11 27-12 40 0C27 12 9 11 0 0Z" fill={deep ? SAGE_DEEP : SAGE} opacity="0.85" />
@@ -45,7 +45,7 @@ function Leaf({ x = 0, y = 0, r = 0, s = 1, deep = false }) {
   );
 }
 
-function Lavender({ x = 0, y = 0, r = 0, s = 1 }) {
+export function Lavender({ x = 0, y = 0, r = 0, s = 1 }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`}>
       <path d="M0 0C2-30-2-62 0-96" fill="none" stroke={SAGE_DEEP} strokeWidth="1.300" strokeLinecap="round" />
@@ -81,7 +81,7 @@ function GoldSprig({ x = 0, y = 0, r = 0, s = 1 }) {
   );
 }
 
-function Floret({ x = 0, y = 0, s = 1, tone = 'lavender' }) {
+export function Floret({ x = 0, y = 0, s = 1, tone = 'lavender' }) {
   const c = TONES[tone];
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>

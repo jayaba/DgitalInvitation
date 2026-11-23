@@ -5,6 +5,7 @@ import DateCalendar from './DateCalendar.jsx';
 import Reveal from './Reveal.jsx';
 import SectionHeading from './SectionHeading.jsx';
 import PaintedCorner from './decor/PaintedCorner.jsx';
+import { HeartClock, LinkedHearts, TravelPath } from './decor/VenueArt.jsx';
 
 export default function WeddingDetails() {
   const { couple, venue } = wedding;
@@ -45,15 +46,21 @@ export default function WeddingDetails() {
             </dl>
 
             {calendarLinks && (
-              <p className="details__save">
-                <a className="btn btn--outline" href={calendarLinks.google} target="_blank" rel="noopener noreferrer">
-                  <CalendarPlus size={16} aria-hidden="true" />
-                  Save to Calendar
-                </a>
-                <a className="details__save-alt" href={calendarLinks.ics} download="wedding.ics">
-                  Apple / Outlook calendar
-                </a>
-              </p>
+              <div className="details__save">
+                <p className="details__save-label">
+                  <CalendarPlus size={15} aria-hidden="true" />
+                  Add to your calendar
+                </p>
+                <div className="details__save-links">
+                  <a className="btn btn--outline btn--small" href={calendarLinks.google}
+                    target="_blank" rel="noopener noreferrer">
+                    Google
+                  </a>
+                  <a className="btn btn--outline btn--small" href={calendarLinks.ics} download="wedding.ics">
+                    Apple / Outlook
+                  </a>
+                </div>
+              </div>
             )}
           </div>
         </Reveal>
@@ -62,14 +69,34 @@ export default function WeddingDetails() {
           <PaintedCorner position="tl" />
           <PaintedCorner position="br" />
           <div className="venue__inner">
-            <MapPin size={26} strokeWidth={1.300} aria-hidden="true" />
-            <p className="eyebrow">The Venue</p>
+            <TravelPath />
+
+            <p className="venue__label"><span>The Venue</span></p>
             <h3 className="venue__name">{venue.name}</h3>
-            <p className="venue__location">{venue.location}</p>
-            <a className="btn" href={venue.mapsUrl} target="_blank" rel="noopener noreferrer">
-              <Navigation size={16} aria-hidden="true" />
+            <p className="venue__location">
+              <span>
+                <MapPin size={16} strokeWidth={1.600} aria-hidden="true" />
+                {venue.location}
+              </span>
+            </p>
+
+            {/* the playful nudge: a clock beside two script lines */}
+            <div className="venue__playful">
+              <HeartClock />
+              <p className="venue__late">
+                {venue.lateLine.split(/(?<=[.!?])\s+/).map((sentence) => (
+                  <span key={sentence}>{sentence} </span>
+                ))}
+              </p>
+            </div>
+            <p className="venue__where">{venue.whereLine}</p>
+
+            <a className="btn venue__directions" href={venue.mapsUrl} target="_blank" rel="noopener noreferrer">
+              <Navigation size={17} aria-hidden="true" />
               Get Directions
             </a>
+
+            <LinkedHearts />
           </div>
         </Reveal>
       </div>

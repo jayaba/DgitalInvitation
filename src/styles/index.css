@@ -1527,8 +1527,119 @@ svg {
 }
 
 .hero__photo {
-  margin: 40px auto 46px;
+  margin: 38px auto 46px;
 }
+
+/* The welcoming line beneath the names: elegant, but quieter than the names */
+.hero .names {
+  margin-top: 0;
+}
+
+/* names a touch smaller, and set lower so they sit clear of the bouquet */
+.hero--photo {
+  padding-top: 138px;
+}
+
+.hero--photo .names {
+  font-size: clamp(3rem, 13.9vw, 4.65rem);
+}
+
+/* on tablet widths the names sit on one line, so the bouquet is kept
+   narrower there to stay clear of them */
+@media (min-width: 720px) {
+  .hero > .painted--tl {
+    width: min(40vw, 52vh, 420px);
+  }
+}
+
+.hero__flourish {
+  margin: 20px auto 14px;
+}
+
+.hero__tagline {
+  max-width: 21em;
+  margin-inline: auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 4.3vw, 1.28rem);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--plum);
+  text-wrap: balance;
+}
+
+/* Foot of the hero: a warm lead line, then a lighter note beneath it */
+.hero__invite {
+  margin-top: 28px;
+}
+
+.hero__invite-lead {
+  max-width: 24em;
+  margin-inline: auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 5.4vw, 1.7rem);
+  line-height: 1.35;
+  color: var(--plum-deep);
+  text-wrap: balance;
+}
+
+.hero__invite-lead span {
+  display: inline-block;
+}
+
+/* on phones, leave room so these lines end above the corner bouquet */
+@media (max-width: 719px) {
+  .hero--photo {
+    padding-bottom: 158px;
+  }
+}
+
+.hero__invite-note {
+  margin-top: 8px;
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+/* Secondary heading: below the names in rank, above the welcoming line */
+.hero__heading {
+  max-width: 16em;
+  margin: 0 auto 10px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 6.6vw, 2.15rem);
+  line-height: 1.22;
+  letter-spacing: 0.015em;
+  color: var(--plum-deep);
+  text-wrap: balance;
+}
+
+.hero__flourish {
+  margin: 18px auto 16px;
+}
+
+.app.is-open .hero__content > :nth-child(8) { animation-delay: 1.6s; }
+
+/* a finer gold edge on the hero photograph, and less space above it */
+.hero__photo {
+  margin-top: 28px;
+}
+
+.hero__photo .photo__mount {
+  padding: 5px;
+  border: 0.5px solid rgba(214, 183, 122, 0.7);
+}
+
+.hero:not(.hero--photo) .hero__tagline {
+  margin-bottom: 30px;
+}
+
+.app.is-open .hero__content > :nth-child(7) { animation-delay: 1.5s; }
 
 /* keep a tall portrait within the height of the screen */
 .hero__photo.photo--portrait {
@@ -1545,25 +1656,33 @@ svg {
   filter: drop-shadow(0 8px 12px rgba(81, 68, 93, 0.28));
 }
 
-/* ── Our Story: the landscape, set on a caption card that slips out
-      from behind it, slightly off-centre like a magazine spread ── */
-.story {
-  padding-top: clamp(16px, 4vw, 56px);
-  text-align: left;
-  background: linear-gradient(180deg, var(--cream) 0%, #f8f1fb 50%, var(--cream) 100%);
+/* on a wide photograph the bouquet is kept smaller */
+.hero__photo.photo--landscape .painted {
+  bottom: -11%;
+  left: -6%;
+  width: 30%;
+}
+
+/* ── Our Story ──
+   Set like a magazine spread: a heading, the photograph with a small
+   bouquet on its corner, and the words joined to it by a fine gold line. */
+.section.story {
+  padding-top: clamp(44px, 8vw, 96px);
+  text-align: center;
+  background: linear-gradient(180deg, var(--cream) 0%, #f8f1fb 42%, #fbf2f6 76%, var(--cream) 100%);
 }
 
 .story .container {
   max-width: 1080px;
 }
 
-.story__piece {
-  max-width: 760px;
+.story__spread {
+  max-width: 560px;
   margin-inline: auto;
 }
 
-.story__piece--portrait {
-  max-width: 420px;
+.story__spread--portrait {
+  max-width: 400px;
 }
 
 .story__print {
@@ -1575,81 +1694,131 @@ svg {
   max-width: none;
 }
 
-.story__panel {
+/* a small bouquet laid across the lower corner of the print */
+.story__print .painted {
+  right: -7%;
+  bottom: -10%;
+  z-index: 2;
+  width: 36%;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 8px 12px rgba(81, 68, 93, 0.28));
+}
+
+/* the words; a short gold line leads down to them from the photograph */
+.story__words {
   position: relative;
-  width: 90%;
-  margin: -46px 0 0 auto;
-  padding: 78px 24px 30px;
-  border: 1px solid rgba(214, 183, 122, 0.65);
-  border-radius: 4px;
-  background: #fffaf3;
-  box-shadow: 0 30px 50px -36px rgba(124, 98, 166, 0.45);
+  padding-top: 70px;
+}
+
+.story__words::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(180deg, rgba(214, 183, 122, 0), var(--gold) 35%, var(--gold));
+}
+
+.story__quote-mark {
+  display: block;
+  height: 0.42em;
+  font-family: var(--font-serif);
+  font-size: 4.2rem;
+  line-height: 1;
+  color: var(--gold);
 }
 
 .story__caption {
-  margin-top: 10px;
+  max-width: 13em;
+  margin-inline: auto;
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.7rem, 6.2vw, 2.2rem);
-  line-height: 1.25;
+  font-size: clamp(1.7rem, 6.600vw, 2.4rem);
+  line-height: 1.24;
+  color: var(--plum-deep);
   text-wrap: balance;
 }
 
-.story__rule {
-  display: block;
-  width: 56px;
-  height: 1px;
-  margin: 18px 0 14px;
-  background: var(--gold);
-}
-
 .story__body {
-  margin-bottom: 14px;
+  max-width: 26em;
+  margin: 14px auto 0;
   color: var(--ink-soft);
   text-wrap: pretty;
 }
 
-.story__sign {
-  font-family: var(--font-script);
-  font-size: 2rem;
-  line-height: 1.3;
-  word-spacing: 0.18em;
-  color: var(--plum-deep);
+.story__names {
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.16em;
+  margin-top: 18px;
+  font-size: clamp(2rem, 8.600vw, 2.9rem);
+  white-space: nowrap;
 }
 
-@media (min-width: 820px) {
-  .story__piece,
-  .story__piece--portrait {
+.story__names .names__name {
+  padding-inline: 0.08em;
+}
+
+.story__names .names__amp {
+  font-size: 0.5em;
+}
+
+.story .scroll {
+  margin: 8px auto 10px;
+}
+
+.story__closing {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 4.500vw, 1.28rem);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+}
+
+/* wider screens: photograph and words side by side */
+@media (min-width: 860px) {
+  .story__spread,
+  .story__spread--portrait {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: center;
     max-width: none;
   }
 
-  .story__print,
-  .story__panel {
-    grid-row: 1;
+  .story__spread--landscape .story__print { grid-column: 1 / span 7; }
+  .story__spread--landscape .story__words { grid-column: 8 / span 5; }
+
+  .story__spread--portrait .story__print { grid-column: 2 / span 4; }
+  .story__spread--portrait .story__words { grid-column: 6 / span 6; }
+
+  /* here the gold line runs down beside the words instead */
+  .story__words {
+    margin-left: 56px;
+    padding: 14px 0 14px 44px;
+    border-left: 1px solid rgba(214, 183, 122, 0.7);
+    text-align: left;
   }
 
-  /* the card starts one column behind the photograph's edge */
-  .story__panel {
-    width: auto;
-    margin: 84px 0 0;
-    padding-block: 46px 42px;
-    padding-right: 38px;
+  .story__words::before {
+    display: none;
   }
 
-  .story__piece--landscape .story__print { grid-column: 1 / span 7; }
-  .story__piece--landscape .story__panel {
-    grid-column: 7 / span 6;
-    padding-left: calc(100% / 6 + 38px);
+  .story__caption,
+  .story__body {
+    margin-inline: 0;
   }
 
-  .story__piece--portrait .story__print { grid-column: 1 / span 5; }
-  .story__piece--portrait .story__panel {
-    grid-column: 5 / span 8;
-    padding-left: calc(100% / 8 + 44px);
+  .story__names {
+    justify-content: flex-start;
+    margin-left: -0.12em; /* lines the script up with the text above it */
+  }
+
+  .story .scroll {
+    margin-left: 0;
   }
 }
 
@@ -1682,31 +1851,301 @@ svg {
 /* ─────────────────────────────────────────────
    Section refinements
    ───────────────────────────────────────────── */
-/* Invitation message on an arched sheet */
-.invitation__frame {
-  max-width: 520px;
-  margin-inline: auto;
-  padding: clamp(72px, 21vw, 100px) clamp(22px, 6vw, 46px) 50px;
-  border: 1px solid var(--gold);
-  border-radius: 260px 260px 14px 14px;
-  outline: 1px solid rgba(214, 183, 122, 0.45);
-  outline-offset: 7px;
-  background: linear-gradient(180deg, #f8f1fc 0%, var(--cream) 46%);
+/* ── The invitation card ──
+   Laid out like bespoke printed stationery: ivory paper with a faint grain,
+   a gold frame with notched corners, the couple's emblem, and a bouquet in
+   two opposite corners. All of it is live text, CSS and SVG. */
+.invitation {
+  background: linear-gradient(180deg, var(--cream) 0%, #f3eafa 50%, var(--cream) 100%);
 }
 
-.invitation__monogram {
-  margin-bottom: 4px;
+.invite-card {
+  position: relative;
+  max-width: 560px;
+  margin-inline: auto;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .27 0 0 0 0 .36 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(168deg, #f8f1fd 0%, #fffdf9 36%, #fffaf3 100%);
+  box-shadow:
+    0 38px 72px -38px rgba(124, 98, 166, 0.6),
+    0 10px 24px -14px rgba(124, 98, 166, 0.24);
+}
+
+/* Inner gold line with concave (notched) corners. The straight line has its
+   four corners masked away; a small quarter-circle is then drawn in each. */
+.invite-card__frame {
+  --notch: 13px;
+  position: absolute;
+  inset: 9px;
+  pointer-events: none;
+}
+
+.invite-card__frame-line {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 0, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 100% 0, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 0 100%, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 100% 100%, transparent 97%, #000 100%);
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle var(--notch) at 0 0, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 100% 0, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 0 100%, transparent 97%, #000 100%),
+    radial-gradient(circle var(--notch) at 100% 100%, transparent 97%, #000 100%);
+  mask-composite: intersect;
+}
+
+.invite-card__frame i {
+  position: absolute;
+  width: var(--notch);
+  height: var(--notch);
+  border: 0 solid var(--gold);
+}
+
+.invite-card__frame i:nth-of-type(1) { top: 0; left: 0; border-width: 0 1px 1px 0; border-bottom-right-radius: 100%; }
+.invite-card__frame i:nth-of-type(2) { top: 0; right: 0; border-width: 0 0 1px 1px; border-bottom-left-radius: 100%; }
+.invite-card__frame i:nth-of-type(3) { bottom: 0; left: 0; border-width: 1px 1px 0 0; border-top-right-radius: 100%; }
+.invite-card__frame i:nth-of-type(4) { right: 0; bottom: 0; border-width: 1px 0 0 1px; border-top-left-radius: 100%; }
+
+/* Bouquets in opposite corners, spilling a little past the card's edge
+   and moving very slightly. */
+.invite-card .painted {
+  z-index: 1;
+  width: clamp(138px, 44vw, 236px);
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 8px 12px rgba(81, 68, 93, 0.16));
+}
+
+.invite-card .painted--tl {
+  top: -14px;
+  left: -16px;
+  transform-origin: top left;
+  animation: bouquet-sway 8s ease-in-out infinite alternate;
+}
+
+.invite-card .painted--br {
+  right: -16px;
+  bottom: -14px;
+  transform-origin: bottom right;
+  animation: bouquet-sway 9s ease-in-out -3s infinite alternate;
+}
+
+@keyframes bouquet-sway {
+  from { rotate: -1.2deg; }
+  to { rotate: 1.2deg; }
+}
+
+.invite-card__inner {
+  position: relative;
+  z-index: 2;
+  padding: clamp(40px, 10vw, 54px) clamp(24px, 7.500vw, 62px) clamp(56px, 14vw, 74px);
+}
+
+/* each part settles into place, one after another, as the card appears */
+.invite-card.is-visible .invite-card__inner > * {
+  animation: fade-up 0.9s var(--ease) both;
+}
+
+.invite-card.is-visible .invite-card__inner > :nth-child(1) { animation-delay: 0.15s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(2) { animation-delay: 0.3s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(3) { animation-delay: 0.4s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(4) { animation-delay: 0.52s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(5) { animation-delay: 0.64s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(6) { animation-delay: 0.78s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(7) { animation-delay: 0.9s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(8) { animation-delay: 1s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(9) { animation-delay: 1.1s; }
+.invite-card.is-visible .invite-card__inner > :nth-child(10) { animation-delay: 1.22s; }
+
+/* 1 · the emblem */
+.monogram {
+  width: clamp(150px, 46vw, 188px);
+  margin: 0 auto;
+}
+
+/* 2 · "You Are Invited", between two gold lines */
+.invite-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 10px;
   font-family: var(--font-serif);
-  font-size: 1.9rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: clamp(1.02rem, 4.300vw, 1.3rem);
+  letter-spacing: 0.3em;
+  line-height: 1.3;
+  text-transform: uppercase;
   color: var(--plum-deep);
 }
 
-.invitation__monogram span {
-  margin-inline: 0.25em;
-  font-size: 0.8em;
-  font-style: italic;
+.invite-card__title span {
+  margin-right: -0.3em; /* balances the trailing letter-space */
+  white-space: nowrap;
+}
+
+.invite-card__title::before,
+.invite-card__title::after {
+  content: '';
+  flex: 1 1 0;
+  max-width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.invite-card__title::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* 3 · small gold capitals */
+.invite-card__intro {
+  margin-top: 14px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(0.76rem, 3.200vw, 0.92rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
   color: var(--gold-deep);
+}
+
+/* 4 · the names on one line, the highlight of the card */
+.invite-card__names {
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.16em;
+  margin-top: 4px;
+  font-size: clamp(2.15rem, 9.600vw, 3.6rem);
+  white-space: nowrap;
+}
+
+.invite-card__names .names__name {
+  padding-inline: 0.08em;
+}
+
+.invite-card__names .names__amp {
+  font-size: 0.5em;
+}
+
+/* 5 · gold heart ornament */
+.heart-flourish {
+  width: min(100%, 250px);
+  margin: 2px auto 0;
+}
+
+/* 6 · personal greeting on a wash of lavender, with a small sprig */
+.invite-card__guest {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  margin-top: 22px;
+  padding: 5px 16px 6px 22px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 5.400vw, 1.6rem);
+  line-height: 1.25;
+  color: var(--plum-deep);
+}
+
+.invite-card__guest::before {
+  content: '';
+  position: absolute;
+  inset: 12% 0 4% 0;
+  z-index: -1;
+  border-radius: 58% 42% 55% 45% / 65% 48% 52% 35%;
+  background: linear-gradient(98deg, rgba(216, 199, 240, 0) 0%, rgba(216, 199, 240, 0.85) 14%, rgba(222, 207, 243, 0.7) 70%, rgba(216, 199, 240, 0) 100%);
+  transform: rotate(-1.5deg);
+}
+
+.invite-card__guest span {
+  overflow-wrap: anywhere;
+}
+
+.invite-card__guest svg {
+  flex: none;
+  width: 28px;
+  height: 34px;
+  overflow: visible;
+}
+
+/* 7 · main wording */
+.invite-card__text {
+  max-width: 25em;
+  margin: 20px auto 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 4.400vw, 1.22rem);
+  line-height: 1.68;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.invite-card .divider {
+  width: 190px;
+  margin: 18px auto;
+}
+
+/* 8 · supporting line */
+.invite-card__support {
+  max-width: 22em;
+  margin-inline: auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 4.900vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--plum-deep);
+  text-wrap: balance;
+}
+
+/* 9 · the date on a small gold plaque */
+.invite-card__date {
+  margin-top: 26px;
+}
+
+.scroll {
+  width: 150px;
+  margin: 0 auto;
+}
+
+.scroll--flipped {
+  transform: scaleY(-1);
+}
+
+.invite-card__date-plaque {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-block: 8px;
+  padding: 11px 22px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  outline: 1px solid rgba(214, 183, 122, 0.6);
+  outline-offset: 3px;
+  background: rgba(255, 253, 249, 0.7);
+  color: var(--gold-deep);
+}
+
+.invite-card__date-plaque span {
+  padding-left: 14px;
+  border-left: 1px solid rgba(165, 129, 74, 0.5);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(0.92rem, 3.900vw, 1.08rem);
+  letter-spacing: 0.22em;
+  line-height: 1.4;
+  font-variant-numeric: lining-nums;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
 }
 
 /* Countdown: each number in a fine gold ring */
@@ -1758,6 +2197,1508 @@ svg {
   background: #fffbfa;
   box-shadow: 0 0 0 5px #fffbfa;
   color: var(--plum);
+}
+
+/* ─────────────────────────────────────────────
+   Polish pass: rhythm, details, RSVP, closing
+   ───────────────────────────────────────────── */
+/* a calmer, more even gap between sections */
+.section {
+  padding-block: clamp(56px, 10vw, 112px);
+}
+
+.section-heading {
+  margin-bottom: clamp(30px, 5vw, 48px);
+}
+
+/* Wedding details: the calendar becomes a small card, like the photographs */
+.details__when {
+  gap: 30px;
+  margin-block: clamp(36px, 7vw, 56px);
+  padding-block: 0;
+  border-block: 0;
+}
+
+.calendar {
+  max-width: 330px;
+  padding: 22px 20px 22px;
+  border: 1px solid rgba(214, 183, 122, 0.8);
+  border-radius: 6px;
+  background: #fffaf3;
+  box-shadow: 0 30px 56px -34px rgba(124, 98, 166, 0.5);
+}
+
+.calendar__title {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(214, 183, 122, 0.45);
+}
+
+/* date and time side by side */
+.details__facts dl {
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.details__fact {
+  padding: 4px 12px;
+}
+
+.details__fact + .details__fact {
+  border-left: 1px solid rgba(214, 183, 122, 0.55);
+}
+
+.details__fact dd {
+  font-size: 1.25rem;
+  text-wrap: balance;
+}
+
+.details__save {
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.details__save-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.details__save-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn--small {
+  min-height: 44px;
+  padding: 9px 22px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+}
+
+@media (min-width: 680px) {
+  .details__facts {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* RSVP: one card holding the choice, the message and where to send it */
+.rsvp__card {
+  max-width: 460px;
+  margin: 30px auto 0;
+  padding: 20px 18px 26px;
+  border: 1px solid rgba(214, 183, 122, 0.8);
+  border-radius: 6px;
+  background: #fffaf3;
+  box-shadow: 0 30px 56px -34px rgba(124, 98, 166, 0.5);
+}
+
+.rsvp__choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.rsvp__option {
+  flex-direction: column;
+  gap: 8px;
+  min-height: 92px;
+  padding: 14px 8px;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+}
+
+.rsvp__option.is-selected {
+  box-shadow: 0 0 0 1px var(--plum) inset;
+}
+
+.rsvp__preview {
+  margin: 22px 6px 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.rsvp__send-to {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(214, 183, 122, 0.45);
+}
+
+.rsvp__actions .btn {
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (min-width: 640px) {
+  .rsvp__actions {
+    flex-direction: column;
+  }
+}
+
+/* Countdown: a plum arc on each gold ring shows the time running down */
+.countdown__value {
+  position: relative;
+}
+
+.countdown__value::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  border-radius: 50%;
+  background: conic-gradient(var(--plum) calc(var(--p, 1) * 1turn), transparent 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* Schedule: each moment on its own soft card beside the timeline */
+.timeline {
+  max-width: 480px;
+}
+
+.timeline__item {
+  padding-bottom: 18px;
+}
+
+.timeline__item > :not(.timeline__marker) {
+  margin-left: 0;
+}
+
+.timeline__item::after {
+  content: '';
+  position: absolute;
+  inset: -10px 0 8px 54px;
+  z-index: -1;
+  border: 1px solid rgba(214, 183, 122, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 250, 243, 0.85);
+}
+
+.timeline__item {
+  z-index: 0;
+  padding-top: 6px;
+  padding-right: 16px;
+  padding-left: 74px;
+  margin-bottom: 18px;
+}
+
+.timeline__item:last-child {
+  padding-bottom: 18px;
+  margin-bottom: 0;
+}
+
+.timeline__marker {
+  top: 6px;
+}
+
+/* Closing: a little less air above the sign-off */
+.closing__body {
+  padding-top: clamp(64px, 11vw, 120px);
+}
+
+/* ─────────────────────────────────────────────
+   Venue card: travel path, name, playful script lines, directions
+   ───────────────────────────────────────────── */
+.venue {
+  max-width: 760px;
+}
+
+.venue__inner {
+  padding: clamp(70px, 17vw, 78px) clamp(20px, 5vw, 48px) clamp(74px, 18vw, 82px);
+}
+
+.venue__inner > svg {
+  margin-bottom: 0;
+}
+
+.travel-path {
+  width: min(78%, 250px);
+  margin: 0 auto 8px;
+}
+
+/* "THE VENUE" between two gold lines */
+.venue__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.venue__label span {
+  margin-right: -0.32em;
+  white-space: nowrap;
+}
+
+/* full width, so the gold lines either side have room to show */
+.venue__label,
+.venue__location {
+  width: 100%;
+}
+
+.venue__label::before,
+.venue__label::after,
+.venue__location::before,
+.venue__location::after {
+  content: '';
+  flex: 0 1 62px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.8;
+}
+
+.venue__name {
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: clamp(2rem, 8.400vw, 3.1rem);
+  line-height: 1.12;
+  color: var(--plum-deep);
+}
+
+.venue__location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 10px 0 0;
+}
+
+.venue__location span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.venue__location svg {
+  color: var(--plum);
+}
+
+/* the playful nudge, in script, tilted very slightly like handwriting */
+.venue__playful {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.heart-clock {
+  flex: none;
+  width: 46px;
+}
+
+.venue__late {
+  font-family: var(--font-script);
+  max-width: 100%;
+  font-size: clamp(1.7rem, 7.100vw, 2.6rem);
+  line-height: 1.16;
+  color: var(--plum-deep);
+  rotate: -2deg;
+}
+
+.venue__late span {
+  display: inline-block;
+  text-wrap: balance;
+}
+
+/* "Where are you?" on a wash of lavender */
+.venue__where {
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+  margin-top: 12px;
+  padding: 3px 22px 5px;
+  font-family: var(--font-script);
+  font-size: clamp(1.45rem, 6vw, 1.9rem);
+  line-height: 1.3;
+  color: var(--plum-deep);
+  rotate: -2deg;
+}
+
+.venue__where::before {
+  content: '';
+  position: absolute;
+  inset: 8% 0 4%;
+  z-index: -1;
+  border-radius: 58% 42% 55% 45% / 65% 48% 52% 35%;
+  background: linear-gradient(98deg, rgba(216, 199, 240, 0) 0%, rgba(205, 187, 238, 0.9) 12%, rgba(216, 199, 240, 0.75) 72%, rgba(216, 199, 240, 0) 100%);
+}
+
+.venue__directions {
+  display: flex;
+  width: min(100%, 320px);
+  min-height: 54px;
+  margin: 26px auto 0;
+  font-size: 0.86rem;
+}
+
+.linked-hearts {
+  width: 170px;
+  margin: 22px auto 0;
+}
+
+@media (min-width: 620px) {
+  .venue__playful {
+    flex-direction: row;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .heart-clock {
+    width: 56px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Wedding-day schedule: three illustrated cards on a gold timeline
+   ───────────────────────────────────────────── */
+:root {
+  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+}
+
+/* the top-left bouquet, mirrored into the top-right corner */
+.painted--tr {
+  top: 0;
+  right: 0;
+  aspect-ratio: 950 / 800;
+  background-size: 162% auto;
+  background-position: left top;
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 68%, 50% 100%, 0 100%);
+  transform: scaleX(-1);
+}
+
+.section.schedule {
+  padding-top: clamp(104px, 21vw, 132px);
+  background: linear-gradient(180deg, var(--cream) 0%, #f5edfb 18%, #fbf3f7 55%, #f2e9fa 86%, var(--cream) 100%);
+}
+
+.schedule .container {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+}
+
+.schedule > .painted {
+  width: clamp(124px, 33vw, 250px);
+}
+
+/* heading: gold-lined label, script title, heart ornament */
+.schedule__heading {
+  margin-bottom: clamp(28px, 6vw, 46px);
+}
+
+.schedule__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.schedule__eyebrow span {
+  margin-right: -0.32em;
+  white-space: nowrap;
+}
+
+.schedule__eyebrow::before,
+.schedule__eyebrow::after {
+  content: '';
+  flex: 0 1 70px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.schedule__title {
+  margin-top: 4px;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 10vw, 4.2rem);
+  line-height: 1.2;
+  color: var(--plum-deep);
+}
+
+.schedule .heart-flourish {
+  margin-top: 0;
+}
+
+/* the timeline */
+.events {
+  position: relative;
+  display: grid;
+  gap: clamp(18px, 3.500vw, 26px);
+}
+
+.events::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 19px;
+  width: 1.500px;
+  background: linear-gradient(180deg, rgba(214, 183, 122, 0), var(--gold) 5%, var(--gold) 95%, rgba(214, 183, 122, 0));
+}
+
+.event {
+  position: relative;
+  padding-left: 52px;
+}
+
+.event__marker {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.500px solid var(--gold);
+  border-radius: 50%;
+  background: #fffaf3;
+  box-shadow:
+    0 0 0 4px #fffaf3,
+    0 0 0 5px rgba(214, 183, 122, 0.6),
+    0 10px 18px -8px rgba(124, 98, 166, 0.55);
+  color: var(--plum-deep);
+}
+
+/* the card: gold edge, a finer line inside it */
+.event__card {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 20px 18px 16px;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffdf9 0%, #fbf5fd 100%);
+  box-shadow: 0 28px 52px -36px rgba(124, 98, 166, 0.6);
+  text-align: left;
+}
+
+.event__card::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(214, 183, 122, 0.5);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+/* the ceremony stands out a little: warmer paper, deeper shadow */
+.event--featured .event__card {
+  background: linear-gradient(135deg, #fffdf9 0%, #fdf0f5 100%);
+  box-shadow:
+    0 0 0 3px rgba(214, 183, 122, 0.22),
+    0 30px 56px -34px rgba(124, 98, 166, 0.7);
+}
+
+/* time on a lavender ribbon with a notched end */
+.event__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 28px 5px 12px;
+  background: linear-gradient(90deg, #e2d4f5, #eee4fa);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--plum-deep);
+}
+
+.event__title {
+  margin-top: 8px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.65rem, 6.600vw, 2.3rem);
+  line-height: 1.14;
+  color: var(--plum-deep);
+}
+
+.event__text {
+  max-width: 25em;
+  margin-top: 5px;
+  font-size: 0.98rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* the playful note, handwritten on a brush stroke */
+.event__note {
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+  max-width: 17em;
+  margin-top: 12px;
+  padding: 6px 20px 8px;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 5.200vw, 1.5rem);
+  line-height: 1.18;
+  text-align: center;
+  color: var(--plum-deep);
+  rotate: -2deg;
+  text-wrap: balance;
+}
+
+.event__note::before {
+  content: '';
+  position: absolute;
+  inset: 4% 0 2%;
+  z-index: -1;
+  border-radius: 46% 54% 50% 50% / 60% 44% 56% 40%;
+  background: linear-gradient(98deg, rgba(216, 199, 240, 0) 0%, rgba(214, 196, 241, 0.9) 10%, rgba(226, 212, 245, 0.75) 78%, rgba(216, 199, 240, 0) 100%);
+}
+
+.event__art {
+  display: grid;
+  place-items: center;
+}
+
+.event__art svg {
+  width: min(100%, 250px);
+}
+
+.event--featured .event__art svg {
+  width: min(100%, 300px);
+}
+
+.bow-divider {
+  width: min(100%, 300px);
+  margin: clamp(26px, 5vw, 40px) auto 0;
+}
+
+/* wider screens: words on the left, illustration on the right */
+@media (min-width: 760px) {
+  .events::before {
+    left: 29px;
+  }
+
+  .event {
+    padding-left: 88px;
+  }
+
+  .event__marker {
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    translate: 0 -50%;
+  }
+
+  .event__marker svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .event__card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 290px);
+    align-items: center;
+    gap: 22px;
+    padding: 24px 28px 24px 32px;
+  }
+
+  .event--featured .event__card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+  }
+
+  .event__art svg,
+  .event--featured .event__art svg {
+    width: 100%;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Opening screen: a gold arch in a lavender garden
+   (builds on the cover, bouquets and staged reveal defined earlier)
+   ───────────────────────────────────────────── */
+.opening {
+  place-items: stretch center;
+  padding: clamp(14px, 3.500vh, 34px) 24px 0;
+}
+
+/* a slightly deeper lavender atmosphere on the cover */
+.opening__door {
+  background:
+    radial-gradient(130% 70% at 50% 0%, #e6d8f6 0%, rgba(230, 216, 246, 0) 62%),
+    radial-gradient(100% 55% at 50% 100%, #eadcf7 0%, rgba(234, 220, 247, 0) 70%),
+    linear-gradient(180deg, #f6effc 0%, #fffaf6 55%, #f6eefb 100%);
+  background-size: 200% 100%;
+}
+
+/* each door shows its own half of that one background */
+.opening__door--left { background-position: left top; }
+.opening__door--right { background-position: right top; }
+
+.opening .painted--br {
+  width: min(70vw, 50vh, 470px);
+}
+
+.opening .petals {
+  transition: opacity 0.8s ease;
+}
+
+/* The arch: two fine gold lines and a wash of ivory, open at the foot
+   where it fades into the garden. */
+.opening__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 400px);
+  padding: clamp(22px, 4.500vh, 44px) 20px clamp(96px, 15vh, 132px);
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: none;
+  backdrop-filter: none;
+}
+
+.opening__card::before,
+.opening__card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border: 1px solid var(--gold);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+  -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 76%, transparent 100%);
+  pointer-events: none;
+}
+
+.opening__card::before {
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 253, 249, 0.92) 0%, rgba(255, 251, 245, 0.84) 100%);
+  box-shadow: 0 0 46px -6px rgba(124, 98, 166, 0.28);
+}
+
+.opening__card::after {
+  inset: 7px 7px 0;
+  border-color: rgba(214, 183, 122, 0.6);
+}
+
+/* the garden path, at the foot of the arch */
+.opening__path {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+  width: 118%;
+  max-width: none;
+  opacity: 0.72;
+  translate: -50% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+}
+
+/* each part of the arch settles into place in turn */
+.opening__card > .opening__item:nth-child(2) { animation-delay: 0.3s; }
+.opening__card > .opening__item:nth-child(3) { animation-delay: 0.5s; }
+.opening__card > .opening__item:nth-child(4) { animation-delay: 0.7s; }
+.opening__card > .opening__item:nth-child(5) { animation-delay: 0.9s; }
+.opening__card > .opening__item:nth-child(6) { animation-delay: 1s; }
+.opening__card > .opening__item:nth-child(7) { animation-delay: 1.15s; }
+.opening__card > .opening__item:nth-child(8) { animation-delay: 1.3s; }
+
+.opening .monogram {
+  flex: none;
+  width: clamp(128px, 20vh, 168px);
+}
+
+.opening__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(0.78rem, 3.300vw, 0.9rem);
+  letter-spacing: 0.24em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.opening__eyebrow span {
+  max-width: 13.500em;
+}
+
+.opening__eyebrow::before,
+.opening__eyebrow::after {
+  content: '';
+  flex: 0 1 44px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.opening .names {
+  margin-top: 8px;
+  font-size: clamp(3rem, min(15.500vw, 8.400vh), 4.5rem);
+  line-height: 1.02;
+}
+
+/* a gold line either side of the ampersand */
+.opening .names__amp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.46em;
+  line-height: 1.15;
+}
+
+.opening .names__amp::before,
+.opening .names__amp::after {
+  content: '';
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(214, 183, 122, 0), var(--gold));
+}
+
+.opening .names__amp::after {
+  background: linear-gradient(90deg, var(--gold), rgba(214, 183, 122, 0));
+}
+
+.opening .heart-flourish {
+  flex: none;
+  width: 190px;
+  margin-top: 6px;
+}
+
+.opening__note {
+  margin: 4px 0 0;
+  font-size: clamp(1.1rem, 4.600vw, 1.28rem);
+  color: var(--plum);
+}
+
+.opening__guest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 100%;
+  margin: 10px 0 0;
+  font-weight: 600;
+  font-size: clamp(1.35rem, 5.600vw, 1.6rem);
+}
+
+.leaf-sprig {
+  flex: none;
+  width: 26px;
+}
+
+/* "View Invitation": deep purple with a fine gold edge */
+.btn--invite {
+  flex: none;
+  gap: 12px;
+  min-height: 54px;
+  margin-top: clamp(16px, 3vh, 24px);
+  padding: 12px 26px;
+  border: 1px solid var(--gold);
+  background: linear-gradient(135deg, #7458a3 0%, #563c85 100%);
+  box-shadow: 0 14px 28px -12px rgba(86, 60, 133, 0.65);
+  color: #fffdf9;
+  font-size: 0.82rem;
+}
+
+.btn--invite:hover {
+  background: linear-gradient(135deg, #7d61ac 0%, #5d438d 100%);
+  box-shadow:
+    0 0 24px -4px rgba(214, 183, 122, 0.75),
+    0 14px 28px -12px rgba(86, 60, 133, 0.65);
+}
+
+.btn--invite:active,
+.opening.is-pressed .btn--invite,
+.opening.is-leaving .btn--invite {
+  background: linear-gradient(135deg, #7458a3 0%, #563c85 100%);
+  box-shadow:
+    0 0 0 6px rgba(214, 183, 122, 0.22),
+    0 0 36px 4px rgba(214, 183, 122, 0.8);
+}
+
+/* Hanging lanterns */
+.lantern {
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--size, 34px);
+  transform-origin: top center;
+  animation: lantern-sway 6s ease-in-out infinite alternate;
+  pointer-events: none;
+  transition:
+    opacity 0.8s ease,
+    translate 1s var(--ease);
+}
+
+.lantern__chain {
+  width: 1px;
+  height: var(--chain, 120px);
+  background: repeating-linear-gradient(180deg, var(--gold-deep) 0 3px, transparent 3px 6px);
+}
+
+.lantern svg {
+  width: 100%;
+  overflow: visible;
+}
+
+@keyframes lantern-sway {
+  from { rotate: -1.6deg; }
+  to { rotate: 1.6deg; }
+}
+
+.opening__lantern--left {
+  --chain: 44vh;
+  --size: 30px;
+  left: 2px;
+  animation-delay: -2s;
+}
+
+.opening__lantern--right {
+  --chain: 15vh;
+  --size: 30px;
+  right: 2px;
+}
+
+.opening__lantern--far {
+  display: none;
+}
+
+@media (min-width: 720px) {
+  .opening__lantern--left {
+    --chain: 46vh;
+    --size: 44px;
+    left: calc(50% - 300px);
+  }
+
+  .opening__lantern--right {
+    --chain: 16vh;
+    --size: 44px;
+    right: calc(50% - 310px);
+  }
+
+  .opening__lantern--far {
+    --chain: 31vh;
+    --size: 38px;
+    display: flex;
+    right: calc(50% - 372px);
+    animation-delay: -3.500s;
+  }
+}
+
+/* when the guest opens the invitation, the garden slips away with the arch */
+.opening.is-leaving .lantern,
+.opening.is-opening .lantern {
+  opacity: 0;
+  translate: 0 -40px;
+}
+
+.opening.is-leaving .petals,
+.opening.is-opening .petals {
+  opacity: 0;
+}
+
+/* shorter screens: everything a little smaller so the arch still fits */
+@media (max-height: 700px) {
+  .opening__card {
+    padding-bottom: 70px;
+  }
+
+  .opening .monogram {
+    width: 112px;
+  }
+
+  .opening .heart-flourish {
+    width: 150px;
+    margin-top: 2px;
+  }
+
+  .opening__note {
+    margin: 2px 0 0;
+  }
+}
+
+@media (max-height: 590px) {
+  .opening__card {
+    padding-bottom: 40px;
+  }
+
+  .opening .monogram {
+    width: 92px;
+  }
+
+  .opening .heart-flourish {
+    display: none;
+  }
+
+  .btn--invite {
+    min-height: 48px;
+    margin-top: 12px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   RSVP: a personal note, two reply cards, and a line to the couple
+   ───────────────────────────────────────────── */
+.section.rsvp {
+  background: linear-gradient(180deg, var(--cream) 0%, #f7f0fc 38%, #fbf2f6 78%, var(--cream) 100%);
+}
+
+.rsvp .container {
+  position: relative;
+  z-index: 1;
+}
+
+.rsvp > .painted {
+  width: clamp(104px, 29vw, 210px);
+}
+
+/* heading */
+.rsvp__heading {
+  margin-bottom: 8px;
+}
+
+.rsvp__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.rsvp__label span {
+  margin-right: -0.3em;
+  white-space: nowrap;
+}
+
+.rsvp__label::before,
+.rsvp__label::after {
+  content: '';
+  flex: 0 1 46px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.rsvp .heart-flourish {
+  width: 210px;
+  margin-top: 6px;
+}
+
+/* the note itself */
+.rsvp-envelope {
+  width: 104px;
+  margin: 6px auto 10px;
+}
+
+.rsvp__dear {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--plum);
+  overflow-wrap: anywhere;
+}
+
+.rsvp__lead {
+  max-width: 15.500em;
+  margin-inline: auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 5.800vw, 1.8rem);
+  line-height: 1.32;
+  color: var(--plum-deep);
+  text-wrap: balance;
+}
+
+.rsvp__support {
+  margin-top: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+/* the two reply cards */
+.reply {
+  display: grid;
+  gap: 12px;
+  max-width: 540px;
+  margin: 24px auto 0;
+}
+
+.reply__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 70px;
+  padding: 12px 18px;
+  border: 1px solid rgba(214, 183, 122, 0.9);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffdf9 0%, #fbf5fd 100%);
+  box-shadow: 0 18px 34px -24px rgba(124, 98, 166, 0.6);
+  color: var(--plum-deep);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    translate 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+/* a finer gold line inside the edge, like the other cards */
+.reply__card::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(214, 183, 122, 0.45);
+  border-radius: 12px;
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+
+.reply__card:hover {
+  translate: 0 -3px;
+  box-shadow:
+    0 0 22px -6px rgba(214, 183, 122, 0.8),
+    0 22px 36px -24px rgba(124, 98, 166, 0.65);
+}
+
+.reply__card:active {
+  translate: 0 0;
+}
+
+.reply__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: #fffaf3;
+  color: var(--plum);
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s,
+    rotate 0.4s var(--ease);
+}
+
+.reply__card:hover .reply__icon {
+  rotate: -8deg;
+}
+
+.reply__label {
+  flex: 1;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 5.200vw, 1.4rem);
+  line-height: 1.2;
+}
+
+.reply__check {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--plum);
+  color: #fff;
+  opacity: 0;
+  scale: 0.5;
+  transition:
+    opacity 0.3s,
+    scale 0.3s var(--ease);
+}
+
+.reply__card.is-selected {
+  border-color: var(--plum);
+  background: linear-gradient(135deg, #f4ecfc 0%, #ede2f9 100%);
+  box-shadow:
+    0 0 0 1px var(--plum) inset,
+    0 20px 36px -24px rgba(124, 98, 166, 0.75);
+}
+
+.reply__card.is-selected::before {
+  border-color: rgba(124, 98, 166, 0.35);
+}
+
+.reply__card.is-selected .reply__icon {
+  border-color: var(--plum);
+  background: var(--plum);
+  color: #fff;
+}
+
+.reply__card.is-selected .reply__check {
+  opacity: 1;
+  scale: 1;
+}
+
+/* a gentler, rose-tinted look when the answer is no */
+.reply__card--decline.is-selected {
+  border-color: #b9718c;
+  background: linear-gradient(135deg, #fdf3f6 0%, #f8e6ec 100%);
+  box-shadow:
+    0 0 0 1px #b9718c inset,
+    0 20px 36px -24px rgba(185, 113, 140, 0.6);
+}
+
+.reply__card--decline.is-selected .reply__icon,
+.reply__card--decline.is-selected .reply__check {
+  border-color: #b9718c;
+  background: #b9718c;
+}
+
+@media (min-width: 700px) {
+  .reply {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    max-width: 680px;
+  }
+}
+
+/* keep each choice on one line */
+.reply__label {
+  white-space: nowrap;
+}
+
+/* what the page says back */
+.rsvp__answer {
+  min-height: 4px;
+}
+
+.rsvp__confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: 22em;
+  margin: 18px auto 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.15rem, 4.800vw, 1.3rem);
+  line-height: 1.45;
+  color: var(--plum-deep);
+  text-wrap: balance;
+  animation: fade-up 0.7s var(--ease) both;
+}
+
+.rsvp__confirmation svg {
+  color: #d98aa5;
+  animation: heartbeat 2.6s ease-in-out infinite;
+}
+
+/* a line to the couple */
+.rsvp__contact {
+  margin-top: 26px;
+}
+
+.rsvp .linked-hearts {
+  width: 170px;
+  margin: 0 auto;
+}
+
+.rsvp__contact-label {
+  margin-top: 12px;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 5.400vw, 1.5rem);
+  line-height: 1.25;
+  color: var(--plum);
+  text-wrap: balance;
+}
+
+.rsvp__contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.rsvp__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.85);
+  color: var(--plum-deep);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition:
+    translate 0.3s var(--ease),
+    background-color 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+}
+
+.rsvp__chip:hover {
+  translate: 0 -2px;
+  background: var(--plum);
+  color: #fffdf9;
+  box-shadow: 0 12px 22px -12px rgba(86, 60, 133, 0.7);
+}
+
+/* ─────────────────────────────────────────────
+   Opening transition: a rain of flowers
+   ───────────────────────────────────────────── */
+/* The cover no longer parts down the middle. It simply fades away while
+   flowers fall across the whole screen. */
+.opening.is-opening {
+  opacity: 0;
+  transition: opacity 1.500s ease 0.150s;
+}
+
+.opening.is-opening .opening__door--left,
+.opening.is-opening .opening__door--right {
+  transform: none;
+}
+
+.opening.is-leaving .opening__door,
+.opening.is-opening .opening__door {
+  box-shadow: none;
+}
+
+.opening__seam {
+  display: none;
+}
+
+.flower-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* each flower falls the height of the screen, drifting sideways as it goes */
+.flower-rain__item {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  width: var(--size);
+  margin-left: calc(var(--size) / -2);
+  animation: flower-fall var(--dur) cubic-bezier(0.35, 0.2, 0.7, 0.9) var(--delay) both;
+  will-change: transform;
+}
+
+/* …and turns slowly while it does */
+.flower-rain__item svg {
+  width: 100%;
+  height: auto;
+  animation: flower-spin var(--dur) linear var(--delay) both;
+}
+
+@keyframes flower-fall {
+  from { transform: translate3d(0, -16vh, 0); }
+  to { transform: translate3d(var(--drift), 116vh, 0); }
+}
+
+@keyframes flower-spin {
+  from { rotate: 0deg; }
+  to { rotate: var(--spin); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower-rain {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Hero typography
+   One type system for the hero: calligraphy for the names, Cormorant
+   Garamond for the heading and sentences, Montserrat for small labels.
+   Four sizes only, set here as variables so they are easy to tune.
+   ───────────────────────────────────────────── */
+:root {
+  --font-label: 'Montserrat', 'Jost', system-ui, sans-serif;
+}
+
+.hero {
+  /* the four steps of the scale */
+  --hero-names: clamp(2.9rem, 13.200vw, 4.4rem);
+  --hero-title: clamp(1.5rem, 6.200vw, 2rem);
+  --hero-text: clamp(1.1rem, 4.500vw, 1.28rem);
+  --hero-label: clamp(0.64rem, 2.700vw, 0.72rem);
+
+  --hero-soft-purple: #8a72b6;
+}
+
+/* 1 · the names: calligraphy, the clear focal point */
+.hero .names,
+.hero--photo .names {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: var(--hero-names);
+  line-height: 1.12;
+  letter-spacing: 0.005em;
+}
+
+/* room around each name so no swash or tail is ever clipped */
+.hero .names__name {
+  padding: 0.22em 0.26em 0.24em;
+  margin: -0.16em -0.12em -0.18em;
+}
+
+/* the ampersand: a gold italic serif, set apart by two fine lines */
+.hero .names__amp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.5em;
+  line-height: 1.2;
+  color: var(--gold-deep);
+}
+
+.hero .names__amp::before,
+.hero .names__amp::after {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(214, 183, 122, 0), var(--gold));
+}
+
+.hero .names__amp::after {
+  background: linear-gradient(90deg, var(--gold), rgba(214, 183, 122, 0));
+}
+
+/* on one line (wider screens) the ampersand stands alone, without lines */
+@media (min-width: 720px) {
+  .hero .names:not(.names--stacked) {
+    gap: 0.14em;
+  }
+
+  .hero .names:not(.names--stacked) .names__amp::before,
+  .hero .names:not(.names--stacked) .names__amp::after {
+    display: none;
+  }
+}
+
+/* 2 · the heading: upright serif, lightly spaced */
+.hero__heading {
+  max-width: 15em;
+  margin-bottom: 12px;
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--hero-title);
+  line-height: 1.25;
+  letter-spacing: 0.035em;
+  color: var(--plum-deep);
+}
+
+/* 3 · the supporting sentence: italic serif in a softer purple */
+.hero__tagline {
+  max-width: 22em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--hero-text);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--hero-soft-purple);
+}
+
+/* the date shares the heading's size and face */
+.hero__date {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--hero-title);
+  line-height: 1.25;
+  letter-spacing: 0.035em;
+  color: var(--plum-deep);
+}
+
+/* 4 · small labels: Montserrat capitals in champagne gold */
+.hero__venue {
+  margin-top: 10px;
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: var(--hero-label);
+  line-height: 2;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+/* the two closing lines share the sentence size */
+.hero__invite-lead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--hero-text);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--plum-deep);
+}
+
+.hero__invite-note {
+  margin-top: 4px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--hero-text);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--hero-soft-purple);
 }
 
 /* ─────────────────────────────────────────────

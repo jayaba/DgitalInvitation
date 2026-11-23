@@ -1,8 +1,11 @@
+import { ChevronRight } from 'lucide-react';
 import { wedding } from '../config/wedding.js';
 import { getGuestGreeting } from '../utils/guest.js';
 import CoupleNames from './CoupleNames.jsx';
-import { Divider } from './decor/Florals.jsx';
+import { HeartFlourish, Monogram } from './decor/Emblems.jsx';
+import { GardenPath, HangingLantern, LeafSprig } from './decor/OpeningArt.jsx';
 import PaintedCorner from './decor/PaintedCorner.jsx';
+import Petals from './decor/Petals.jsx';
 
 /** Envelope whose flap lifts and lets a small heart out when the button is pressed. */
 function EnvelopeIcon() {
@@ -19,14 +22,18 @@ function EnvelopeIcon() {
 }
 
 /**
- * The closed invitation shown first. `phase` drives a staged opening:
+ * The first thing a guest sees: a tall gold arch in a lavender garden, with
+ * the couple's emblem, their names, a personal greeting and the button that
+ * opens the invitation. `phase` drives the staged opening:
  *   idle     – waiting for the guest
  *   pressed  – the button glows and its envelope opens
- *   leaving  – the welcome card fades and the flowers ease outward
- *   opening  – the cover parts down the middle like a card being opened
+ *   leaving  – the arch fades, the flowers and lanterns ease away
+ *   opening  – the whole cover fades away behind a rain of flowers
+ *              (the rain itself is drawn by FlowerRain, in App)
  */
 export default function OpeningScreen({ phase, onOpen }) {
   const { eyebrow, note, button } = wedding.opening;
+  const { groom, bride } = wedding.couple;
   const guestGreeting = getGuestGreeting();
   const isBusy = phase !== 'idle';
 
@@ -36,15 +43,32 @@ export default function OpeningScreen({ phase, onOpen }) {
       <div className="opening__door opening__door--right" />
       <span className="opening__seam" />
 
+      <Petals count={18} />
       <PaintedCorner position="tl" />
       <PaintedCorner position="br" />
 
+      <HangingLantern className="opening__lantern opening__lantern--left" />
+      <HangingLantern className="opening__lantern opening__lantern--right" />
+      <HangingLantern className="opening__lantern opening__lantern--far" />
+
       <div className="opening__card">
-        <p className="eyebrow opening__item">{eyebrow}</p>
+        <GardenPath className="opening__path" />
+
+        <Monogram className="opening__item" first={groom[0]} second={bride[0]} />
+        <p className="opening__eyebrow opening__item"><span>{eyebrow}</span></p>
         <CoupleNames as="h1" className="names--stacked opening__item" />
-        <Divider className="opening__item" />
+        <HeartFlourish className="opening__item" />
         <p className="opening__note opening__item">{note}</p>
-        {guestGreeting && <p className="opening__guest opening__item">{guestGreeting}</p>}
+
+        {/* shown only when the link carries a guest's name (?to=Name) */}
+        {guestGreeting && (
+          <p className="opening__guest opening__item">
+            <LeafSprig />
+            <span>{guestGreeting}</span>
+            <LeafSprig flipped />
+          </p>
+        )}
+
         <button
           type="button"
           className="btn btn--invite opening__item"
@@ -53,6 +77,7 @@ export default function OpeningScreen({ phase, onOpen }) {
         >
           <EnvelopeIcon />
           {button}
+          <ChevronRight size={18} aria-hidden="true" />
         </button>
       </div>
     </div>

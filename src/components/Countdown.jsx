@@ -5,6 +5,8 @@ import Reveal from './Reveal.jsx';
 import SectionHeading from './SectionHeading.jsx';
 
 const UNITS = ['days', 'hours', 'minutes', 'seconds'];
+// How many of each unit make a full ring (days always show a full ring).
+const SPAN = { hours: 24, minutes: 60, seconds: 60 };
 
 export default function Countdown() {
   const remaining = useCountdown(weddingDate);
@@ -21,7 +23,9 @@ export default function Countdown() {
           <Reveal className="countdown__grid" role="timer" aria-label="Time until the wedding">
             {UNITS.map((unit) => (
               <div key={unit} className="countdown__unit">
-                <span className="countdown__value">
+                {/* --p draws the ring: how much of the hour / minute / day is left */}
+                <span className="countdown__value"
+                  style={{ '--p': SPAN[unit] ? remaining[unit] / SPAN[unit] : 1 }}>
                   {String(remaining[unit]).padStart(2, '0')}
                 </span>
                 <span className="countdown__label">{unit}</span>

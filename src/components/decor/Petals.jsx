@@ -1,35 +1,76 @@
-/**
- * A few petals drifting slowly down the section they are placed in.
- * Purely decorative; hidden for guests who prefer reduced motion.
- */
-const PETALS = [
-  { left: 8, size: 15, dur: 17, delay: -2, drift: 26, color: '#E8C6D0' },
-  { left: 22, size: 11, dur: 22, delay: -11, drift: 18, color: '#D8C7F0' },
-  { left: 37, size: 13, dur: 19, delay: -6, drift: 30, color: '#F0D5DD' },
-  { left: 52, size: 10, dur: 24, delay: -17, drift: 16, color: '#E8C6D0' },
-  { left: 64, size: 14, dur: 18, delay: -9, drift: 28, color: '#CDBBEE' },
-  { left: 76, size: 11, dur: 21, delay: -14, drift: 20, color: '#F0D5DD' },
-  { left: 88, size: 13, dur: 20, delay: -4, drift: 24, color: '#E8C6D0' },
-  { left: 95, size: 10, dur: 25, delay: -20, drift: 14, color: '#D8C7F0' },
-];
+import { Floret, Rose } from './Florals.jsx';
 
-export default function Petals({ count = PETALS.length }) {
+/**
+ * Flowers drifting slowly down the section they are placed in: loose
+ * petals, small blossoms and the odd little rose. Purely decorative, and
+ * hidden for guests who prefer reduced motion.
+ *
+ * `count` sets how many fall in that section (up to 24).
+ */
+
+// A repeatable "random" number between 0 and 1, so the drift looks the same
+// on every visit and nothing jumps when the page re-renders.
+const rand = (i, salt) => {
+  const x = Math.sin(i * 91.300 + salt * 271.900) * 43758.545;
+  return x - Math.floor(x);
+};
+
+// Mostly petals, with blossoms mixed in and a rose now and then.
+const KINDS = ['petal', 'floret', 'petal', 'floret', 'petal', 'rose'];
+const TONES = ['rose', 'lavender', 'white'];
+const PETAL_COLOURS = ['#E8C6D0', '#D8C7F0', '#F0D5DD', '#CDBBEE'];
+const MAX = 24;
+
+const ITEMS = Array.from({ length: MAX }, (_, i) => {
+  const kind = KINDS[i % KINDS.length];
+  const base = { petal: 10, floret: 14, rose: 20 }[kind];
+  const range = { petal: 6, floret: 8, rose: 10 }[kind];
+  const dur = 16 + rand(i, 3) * 11;
+  return {
+    kind,
+    tone: TONES[Math.floor(rand(i, 5) * TONES.length)],
+    colour: PETAL_COLOURS[Math.floor(rand(i, 6) * PETAL_COLOURS.length)],
+    size: Math.round(base + rand(i, 2) * range),
+    style: {
+      // spread evenly across the width, with a little wobble
+      left: `${(((i * 37) % MAX) / MAX * 96 + 2 + (rand(i, 1) - 0.500) * 3).toFixed(1)}%`,
+      '--dur': `${dur.toFixed(1)}s`,
+      // a negative delay starts each one part-way down, so the section
+      // already has flowers in it when it comes into view
+      '--delay': `${(-rand(i, 4) * dur).toFixed(1)}s`,
+      '--drift': `${Math.round(14 + rand(i, 7) * 20)}px`,
+    },
+  };
+});
+
+function Flower({ kind, tone, colour, size }) {
+  if (kind === 'rose') {
+    return (
+      <svg viewBox="-40 -40 80 80" width={size} height={size} focusable="false">
+        <Rose tone={tone} />
+      </svg>
+    );
+  }
+  if (kind === 'floret') {
+    return (
+      <svg viewBox="-12 -12 24 24" width={size} height={size} focusable="false">
+        <Floret tone={tone} />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 20 20" width={size} height={size} focusable="false">
+      <path d="M10 1C16 6 17 14 10 19C3 14 4 6 10 1Z" fill={colour} />
+    </svg>
+  );
+}
+
+export default function Petals({ count = 18 }) {
   return (
     <div className="petals" aria-hidden="true">
-      {PETALS.slice(0, count).map((p) => (
-        <span
-          key={p.left}
-          className="petal"
-          style={{
-            left: `${p.left}%`,
-            '--dur': `${p.dur}s`,
-            '--delay': `${p.delay}s`,
-            '--drift': `${p.drift}px`,
-          }}
-        >
-          <svg viewBox="0 0 20 20" width={p.size} height={p.size} focusable="false">
-            <path d="M10 1C16 6 17 14 10 19C3 14 4 6 10 1Z" fill={p.color} />
-          </svg>
+      {ITEMS.slice(0, count).map((item, i) => (
+        <span key={i} className="petal" style={item.style}>
+          <Flower kind={item.kind} tone={item.tone} colour={item.colour} size={item.size} />
         </span>
       ))}
     </div>
