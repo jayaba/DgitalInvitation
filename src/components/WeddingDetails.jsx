@@ -60,8 +60,12 @@ export default function WeddingDetails() {
                     target="_blank" rel="noopener noreferrer">
                     Google
                   </a>
+                  <a className="btn btn--outline btn--small" href={calendarLinks.outlook}
+                    target="_blank" rel="noopener noreferrer">
+                    Outlook
+                  </a>
                   <a className="btn btn--outline btn--small" href={calendarLinks.ics} download="wedding.ics">
-                    Apple / Outlook
+                    Apple
                   </a>
                 </div>
               </div>

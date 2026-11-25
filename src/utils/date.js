@@ -64,38 +64,51 @@ export function getCalendarMonth() {
 }
 
 /**
- * "Save to calendar" links — null until the date is confirmed.
- * Saved as an all-day event until the time is confirmed too.
+ * When the event starts and ends, in the shapes the calendars want.
+ * An all-day event until the time is confirmed too.
  */
-export function getCalendarLinks() {
-  if (!isConfirmed) return null;
-
-  let start;
-  let end;
-  let icsStart;
-  let icsEnd;
+function getEventTimes() {
   if (hasTime) {
+    const endDate = new Date(weddingDate.getTime() + durationHours * 3600000);
     const stamp = (date) => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-    start = stamp(weddingDate);
-    end = stamp(new Date(weddingDate.getTime() + durationHours * 3600000));
-    icsStart = `DTSTART:${start}`;
-    icsEnd = `DTEND:${end}`;
-  } else {
-    const day = (offset) =>
-      new Date(Date.UTC(local.year, local.month - 1, local.day + offset))
-        .toISOString()
-        .slice(0, 10)
-        .replace(/-/g, '');
-    start = day(0);
-    end = day(1);
-    icsStart = `DTSTART;VALUE=DATE:${start}`;
-    icsEnd = `DTEND;VALUE=DATE:${end}`;
+    const plain = (date) => date.toISOString().replace(/\.\d{3}/, '');
+    return {
+      start: stamp(weddingDate),
+      end: stamp(endDate),
+      icsStart: `DTSTART:${stamp(weddingDate)}`,
+      icsEnd: `DTEND:${stamp(endDate)}`,
+      outlookStart: plain(weddingDate),
+      outlookEnd: plain(endDate),
+    };
   }
+  const day = (offset) =>
+    new Date(Date.UTC(local.year, local.month - 1, local.day + offset)).toISOString().slice(0, 10);
+  const start = day(0).replace(/-/g, '');
+  const end = day(1).replace(/-/g, '');
+  return {
+    start,
+    end,
+    icsStart: `DTSTART;VALUE=DATE:${start}`,
+    icsEnd: `DTEND;VALUE=DATE:${end}`,
+    outlookStart: day(0),
+    outlookEnd: day(1),
+  };
+}
 
-  const title = `Wedding of ${wedding.couple.groom} & ${wedding.couple.bride}`;
-  const place = `${wedding.venue.name}, ${wedding.venue.location}`;
+const eventTitle = `Wedding of ${wedding.couple.groom} & ${wedding.couple.bride}`;
+const eventPlace = `${wedding.venue.name}, ${wedding.venue.location}`;
 
-  const ics = [
+/**
+ * The text of the calendar file (wedding.ics) — null until the date is
+ * confirmed. The build writes it out as a real file, see vite.config.js.
+ */
+export function getCalendarFile() {
+  if (!isConfirmed) return null;
+  const { start, icsStart, icsEnd } = getEventTimes();
+  const title = eventTitle;
+  const place = eventPlace;
+
+  return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//Wedding Invitation//EN',
@@ -108,13 +121,28 @@ export function getCalendarLinks() {
     `LOCATION:${place.replace(/,/g, '\\,')}`,
     'END:VEVENT',
     'END:VCALENDAR',
-  ].join('\r\n');
+  ].join('\r\n') + '\r\n';
+}
+
+/**
+ * "Save to calendar" links — null until the date is confirmed.
+ * Google and Outlook open the guest's calendar with the event filled in;
+ * Apple (and any other calendar app) gets the wedding.ics file.
+ */
+export function getCalendarLinks() {
+  if (!isConfirmed) return null;
+  const { start, end, outlookStart, outlookEnd } = getEventTimes();
+  const title = encodeURIComponent(eventTitle);
+  const place = encodeURIComponent(eventPlace);
 
   return {
     google:
       'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-      `&text=${encodeURIComponent(title)}&dates=${start}/${end}` +
-      `&location=${encodeURIComponent(place)}`,
-    ics: `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`,
+      `&text=${title}&dates=${start}/${end}&location=${place}`,
+    outlook:
+      'https://outlook.live.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent' +
+      `&subject=${title}&startdt=${encodeURIComponent(outlookStart)}&enddt=${encodeURIComponent(outlookEnd)}` +
+      `${hasTime ? '' : '&allday=true'}&location=${place}`,
+    ics: `${import.meta.env?.BASE_URL ?? './'}wedding.ics`,
   };
 }
